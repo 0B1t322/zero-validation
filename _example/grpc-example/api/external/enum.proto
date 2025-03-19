@@ -1,0 +1,11 @@
+syntax = 'proto3';
+
+package zero_validation.example.external;
+
+option go_package = "github.com/0B1t322/zero-validation/grpc-example/pkg/api/external";
+
+enum Enum {
+  ENUM_UNKNOWN = 0;
+  ENUM_FIRST = 1;
+  ENUM_SECOND = 2;
+}

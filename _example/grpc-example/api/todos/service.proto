@@ -1,0 +1,59 @@
+syntax = 'proto3';
+
+package zero_validation.example.todos;
+
+option go_package = "github.com/0B1t322/zero-validaton/grpc-example/pkg/api/todos";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+import "api/external/enum.proto";
+
+service Example {
+  rpc CreateSome(CreateSomeRequest) returns (google.protobuf.Empty);
+}
+
+message CreateSomeRequest {
+  uint64 base_type = 1;
+  repeated uint64 base_type_array = 2;
+  optional uint64 opt_base_type = 3;
+  repeated bytes repeated_bytes = 4;
+  Enum enum = 5;
+  external.Enum external_enum = 6;
+  Entity entity = 7;
+  repeated Entity entities = 8;
+  repeated Enum enums = 9;
+  repeated external.Enum external_enums = 10;
+
+  message InnerMessage {
+    string some = 1;
+  }
+
+  InnerMessage innter_message = 11;
+  repeated InnerMessage innter_messages = 12;
+
+  oneof oneof_example {
+    uint64 uint = 13;
+    Enum enum_type = 14;
+    InnerMessage inner_message = 15;
+  }
+
+  enum InnerEnum {
+    InnerEnumValue = 0;
+  }
+  InnerEnum inner_enum = 16;
+}
+
+message SomeResponse {
+  uint64 id = 1;
+}
+
+message Entity {
+  uint64 id = 1;
+}
+
+enum Enum {
+  ENUM_UNKNOWN = 0;
+  ENUM_FIRST = 1;
+  ENUM_SECOND = 2;
+}
