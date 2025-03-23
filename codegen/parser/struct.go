@@ -20,12 +20,7 @@ type Struct struct {
 type Field struct {
 	Name string
 	Type field_type.FieldTyper
-	Tags []FieldTag
-}
-
-type FieldTag struct {
-	Key   string
-	Value string
+	Tags map[string]string
 }
 
 type Import struct {

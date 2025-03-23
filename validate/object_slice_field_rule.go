@@ -32,7 +32,7 @@ func (s *objectSliceFieldRule[T, V]) Validate(ctx Context, obj T) *errors.FieldE
 				errs = append(
 					errs,
 					errors.NewFieldError(
-						errors.NewStringField(fmt.Sprint(i)),
+						fmt.Sprint(i),
 						err,
 					),
 				)
@@ -46,7 +46,7 @@ func (s *objectSliceFieldRule[T, V]) Validate(ctx Context, obj T) *errors.FieldE
 	}
 
 	return errors.NewFieldError(
-		s.fielder,
+		ctx.FieldNameGetter().GetFieldName(s.fielder.valueExtractor),
 		errors.FieldErrorToErrors(errs),
 	)
 }

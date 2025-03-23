@@ -1,0 +1,56 @@
+type Query {
+    GetTodos(input: GetTodosInput!): [Todo!]
+    SuggestTodos(input: SuggestTodosInput!): [Todo!]
+}
+
+type Mutation {
+    CreateTodo(input: CreateTodoInput!): [Todo!]
+    CreateTasks(input: CreateTasksInput!): [Task!]
+}
+
+type Todo {
+    ID: ID!
+    Name: String!
+    Description: String!
+
+    Tasks: [Task!] @goField(forceResolver: true)
+}
+
+type Task {
+    ID: ID!
+    Name: String!
+    Description: String!
+    Status: Status!
+}
+
+input GetTodosInput {
+    IDs: [ID!]
+    TasksIDs: [ID!]
+}
+
+input CreateTodoInput {
+    Name: String!
+    Description: String!
+}
+
+input CreateTasksInput {
+    TodoID: ID!
+    Tasks: [CreateTasksInputItem!]!
+}
+
+input CreateTasksInputItem {
+    Name: String!
+    Description: String!
+    Status: Status!
+}
+
+input SuggestTodosInput  {
+    Name: String!
+}
+
+enum Status {
+    Created,
+    InProgress,
+    Done,
+    Rejected
+}

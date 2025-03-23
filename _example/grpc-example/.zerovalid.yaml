@@ -1,3 +1,12 @@
 grpc:
   exclude:
     - "^.*Response$"
+
+additional_tags:
+  - matches:
+    - "^Entity$"
+    field_tags:
+      - field_name: Id
+        tags:
+          ru: "ID сущности"
+

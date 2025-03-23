@@ -196,6 +196,7 @@ func (p *Parser) parseField(field *protogen.Field) (parser.Field, error) {
 	parsedField := parser.Field{
 		Name: field.GoName,
 		Type: nil,
+		Tags: make(map[string]string),
 	}
 
 	fieldType, err := p.parseFieldType(field)
@@ -205,16 +206,10 @@ func (p *Parser) parseField(field *protogen.Field) (parser.Field, error) {
 	parsedField.Type = fieldType
 
 	if field.Desc.HasJSONName() {
-		parsedField.Tags = append(parsedField.Tags, parser.FieldTag{
-			Key:   "json",
-			Value: field.Desc.JSONName(),
-		})
+		parsedField.Tags["json"] = field.Desc.JSONName()
 	}
 
-	parsedField.Tags = append(parsedField.Tags, parser.FieldTag{
-		Key:   "proto",
-		Value: string(field.Desc.Name()),
-	})
+	parsedField.Tags["proto"] = string(field.Desc.Name())
 
 	return parsedField, nil
 }

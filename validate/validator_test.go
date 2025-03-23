@@ -19,10 +19,15 @@ type objectExtractor struct {
 }
 
 var ExtractObject = objectExtractor{
-	ID: field.NewField("ID", nil, func(from Object) uint64 {
+	ID: field.NewField("ID", map[string]string{
+		"ru":    "ID Объекта",
+		"proto": "id",
+	}, func(from Object) uint64 {
 		return from.ID
 	}),
-	Name: field.NewField("Name", nil, func(from Object) string {
+	Name: field.NewField("Name", map[string]string{
+		"proto": "name",
+	}, func(from Object) string {
 		return from.Name
 	}),
 }
@@ -32,6 +37,10 @@ func TestSome(t *testing.T) {
 
 	ctx := context.Background()
 	obj := Object{}
+	ctx = FieldNameGetterToContext(ctx, NewFieldNameGetterStrategy(
+		"ru",
+		FieldNameProto,
+	))
 
 	err := Struct(
 		ctx,
@@ -50,7 +59,14 @@ func TestSome(t *testing.T) {
 
 func BenchmarkTranslate(b *testing.B) {
 	ctx := context.Background()
-	ctx = ValidateContextToContext(ctx, NewValidateContext(translation.GlobalRegistry(), "en"))
+	ctx = ValidateContextToContext(ctx, NewValidateContext(
+		translation.GlobalRegistry(),
+		"en",
+		WithFieldNameGetter(NewFieldNameGetterStrategy(
+			"ru",
+			FieldNameProto,
+		)),
+	))
 
 	obj := Object{
 		//ID:   1,

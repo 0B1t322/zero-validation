@@ -73,9 +73,18 @@ func (t templateFunctions) formatParentType(s parser.Struct) string {
 	return typeName
 }
 
+func (t templateFunctions) formatChildFieldType(field parser.Field) string {
+	if t.isGenerateInParsedPackage {
+		return field.Type.GoTypeString()
+	}
+
+	//fmt.Fprintf(os.Stderr,,"%+v\n", field.Type.GoTypeStringWithAlias(t.parsedPackageAlias))
+	return field.Type.GoTypeStringWithAlias(t.parsedPackageAlias)
+}
+
 func (t templateFunctions) formatField(s parser.Struct, f parser.Field) string {
 	parentType := t.formatParentType(s)
-	childType := f.Type.GoTypeString()
+	childType := t.formatChildFieldType(f)
 
 	return fmt.Sprintf("%s field.StructField[%s,%s]", f.Name, parentType, childType)
 }
@@ -88,16 +97,18 @@ func (templateFunctions) formatAdditionalNames(f parser.Field) string {
 	mapBuilder := strings.Builder{}
 
 	mapBuilder.WriteString("map[string]string{")
-	for idx, tag := range f.Tags {
+	idx := 0
+	for key, value := range f.Tags {
 		mapBuilder.WriteString("\"")
-		mapBuilder.WriteString(tag.Key)
+		mapBuilder.WriteString(key)
 		mapBuilder.WriteString("\":")
 		mapBuilder.WriteString("\"")
-		mapBuilder.WriteString(tag.Value)
+		mapBuilder.WriteString(value)
 		mapBuilder.WriteString("\"")
 		if idx != len(f.Tags)-1 {
 			mapBuilder.WriteString(",")
 		}
+		idx++
 	}
 	mapBuilder.WriteString("}")
 

@@ -21,12 +21,14 @@ type fileParser struct {
 	structs []parser.Struct
 
 	structMatcher matcher.StructMatcher
+	tagsParser    tagParser
 }
 
-func newFileParser(structMatcher matcher.StructMatcher) *fileParser {
+func newFileParser(structMatcher matcher.StructMatcher, tagsParser tagParser) *fileParser {
 	return &fileParser{
 		imports:       newImportSet(),
 		structMatcher: structMatcher,
+		tagsParser:    tagsParser,
 	}
 }
 
@@ -129,7 +131,7 @@ func (f *fileParser) parseField(field *ast.Field) (parser.Field, error) {
 	parsedField.Type = fieldType
 
 	if field.Tag != nil {
-		//	TODO: parse tags
+		parsedField.Tags = f.tagsParser.ParseTag(field.Tag.Value)
 	}
 
 	return parsedField, nil

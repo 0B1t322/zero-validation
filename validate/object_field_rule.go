@@ -42,7 +42,10 @@ func (c *objectField[T, V]) validate(ctx Context, obj V) *errors.FieldError {
 		return nil
 	}
 
-	return errors.NewFieldError(c.fielder, errs)
+	return errors.NewFieldError(
+		ctx.FieldNameGetter().GetFieldName(c.fielder.valueExtractor),
+		errs,
+	)
 }
 
 func ObjectField[T any, V any](

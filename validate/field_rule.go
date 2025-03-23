@@ -38,7 +38,10 @@ func (f *fieldRule[T, V]) Validate(ctx Context, obj T) *errors.FieldError {
 	for _, rule := range f.rules {
 		if err := rule.Validate(v); err != nil {
 			err = TranslateError(ctx, err)
-			return errors.NewFieldError(f.filder, err)
+			return errors.NewFieldError(
+				ctx.FieldNameGetter().GetFieldName(f.filder.valueExtractor),
+				err,
+			)
 		}
 	}
 

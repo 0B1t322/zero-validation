@@ -13,9 +13,11 @@ import (
 type Generator struct {
 	baseProjectPath string
 	baseProjectName string
+
+	tagsAdder tagsAdder
 }
 
-func NewGenerator() *Generator {
+func NewGenerator(opts ...Option) *Generator {
 	baseProjectPath, err := basePathFromOS()
 	if err != nil {
 		panic(fmt.Errorf("failed to get base project path: %w", err))
@@ -26,9 +28,12 @@ func NewGenerator() *Generator {
 		panic(fmt.Errorf("failed to get module name"))
 	}
 
+	opt := newOptions(opts...)
+
 	g := &Generator{
 		baseProjectPath: baseProjectPath,
 		baseProjectName: projectName,
+		tagsAdder:       opt.tagsAdder,
 	}
 
 	return g
@@ -50,17 +55,19 @@ type GenerateToCommand struct {
 	PackageName               string
 	IsGenerateInParsedPackage bool
 	ForceExtractFromPtr       bool
-}
-
-func (cmd GenerateCommand) isGenerateInParsedPackage() bool {
-	return cmd.PackagePath == cmd.DestinationPath
+	// PackageImportPath is import path to package
+	PackageImportPath string
 }
 
 func (g *Generator) GenerateTo(cmd GenerateToCommand, w io.Writer) error {
 	if len(cmd.Structs) == 0 {
 		return nil
 	}
-	
+
+	if g.tagsAdder != nil {
+		cmd.Structs = g.tagsAdder.AddTags(cmd.Structs)
+	}
+
 	data := generateFileData{
 		PkgName:                   path.Base(cmd.PackageName),
 		Imports:                   parser.Structs.GetUsedImports(cmd.Structs),
@@ -70,6 +77,7 @@ func (g *Generator) GenerateTo(cmd GenerateToCommand, w io.Writer) error {
 
 	if !cmd.IsGenerateInParsedPackage {
 		data.Imports = append(data.Imports, parser.Import{
+			Path:  cmd.PackageImportPath,
 			Alias: cmd.parsedPackageAlias(),
 		})
 	}
@@ -96,7 +104,7 @@ func (g *Generator) Generate(cmd GenerateCommand) error {
 		return fmt.Errorf("failed url.JoinPath: %w", err)
 	}
 
-	file, err := os.Create(fileURL)
+	file, err := createFileByURL(fileURL)
 	if err != nil {
 		return fmt.Errorf("failed create destination file: %w", err)
 	}
@@ -128,4 +136,22 @@ func (g *Generator) createTemplate(cmd GenerateToCommand) (*template.Template, e
 
 func (cmd GenerateToCommand) parsedPackageAlias() string {
 	return "parsedPackage"
+}
+
+func createFileByURL(fileURL string) (*os.File, error) {
+	err := os.MkdirAll(path.Dir(fileURL), os.ModePerm)
+	if err != nil {
+		switch {
+		case os.IsExist(err):
+		//	skip
+		default:
+			return nil, fmt.Errorf("failed create dir: %w", err)
+		}
+	}
+	file, err := os.Create(fileURL)
+	if err != nil {
+		return nil, err
+	}
+
+	return file, nil
 }

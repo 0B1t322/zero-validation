@@ -18,6 +18,10 @@ func (f *field[T, V]) GetAdditionalName(key string) string {
 	return f.additionalNameGetter.GetAdditionalName(key)
 }
 
+func (f *field[T, V]) TryGetAdditionalName(key string) (string, bool) {
+	return f.additionalNameGetter.TryGetAdditionalName(key)
+}
+
 func (f *field[T, V]) ExtractValue(from T) V {
 	return f.extractor(from)
 }
@@ -40,11 +44,13 @@ func FromPtr[T any, V any](s StructField[T, V]) StructField[*T, V] {
 type StructField[T any, V any] interface {
 	Name() string
 	GetAdditionalName(key string) string
+	TryGetAdditionalName(key string) (string, bool)
 	ExtractValue(from T) V
 }
 
 type additionalNameGetter interface {
 	GetAdditionalName(key string) string
+	TryGetAdditionalName(key string) (string, bool)
 }
 
 type mapAdditionFieldGetter struct {
@@ -63,6 +69,15 @@ func (m mapAdditionFieldGetter) GetAdditionalName(key string) string {
 	}
 
 	return additionalName
+}
+
+func (m mapAdditionFieldGetter) TryGetAdditionalName(key string) (string, bool) {
+	if len(m.additionalNames) == 0 {
+		return "", false
+	}
+
+	additionalName, find := m.additionalNames[key]
+	return additionalName, find
 }
 
 func newMapAdditionFieldGetter(defaultName string, additionalNames map[string]string) mapAdditionFieldGetter {

@@ -19,11 +19,24 @@ type Config struct {
 	// bastPath base path of project
 	bastPath string `yaml:"-"`
 
-	GrpcConfig GrpcConfig `yaml:"grpc"`
+	GrpcConfig     GrpcConfig       `yaml:"grpc"`
+	AdditionalTags []AdditionalTags `yaml:"additional_tags"`
+	PackagesConfig PackagesConfig   `yaml:"packages"`
+}
+
+func (c *Config) GoModulePath() string {
+	return c.goModulePath
+}
+
+func (c *Config) BastPath() string {
+	return c.bastPath
 }
 
 func GetDefaultConfig() Config {
-	cfg, _ := tryReadDefaultConfig()
+	cfg, ok := tryReadDefaultConfig()
+	if !ok {
+		cfg.init()
+	}
 
 	return cfg
 }

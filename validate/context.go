@@ -8,12 +8,17 @@ import (
 type Context interface {
 	GetRegistry() translation.Registry
 	GetPreferredLocale() string
+	FieldNameGetter() FieldNameGetter
 }
+
+var defaultFieldNameKey = FieldNameKey("defaultFieldNameKey")
 
 type validateContext struct {
 	registry translation.Registry
 
 	preferredLocale string
+
+	fieldNameGetter FieldNameGetter
 }
 
 func (v validateContext) GetRegistry() translation.Registry {
@@ -22,6 +27,10 @@ func (v validateContext) GetRegistry() translation.Registry {
 
 func (v validateContext) GetPreferredLocale() string {
 	return v.preferredLocale
+}
+
+func (v validateContext) FieldNameGetter() FieldNameGetter {
+	return v.fieldNameGetter
 }
 
 func newValidateContextFromContext(ctx context.Context) Context {
@@ -40,9 +49,15 @@ func newValidateContextFromContext(ctx context.Context) Context {
 		locale = registry.DefaultLocale()
 	}
 
+	fieldName, isFind := FieldNameGetterFromContext(ctx)
+	if !isFind {
+		fieldName = defaultFieldNameKey
+	}
+
 	return validateContext{
 		registry:        registry,
 		preferredLocale: locale,
+		fieldNameGetter: fieldName,
 	}
 }
 
@@ -50,10 +65,37 @@ func newValidateContextFromContext(ctx context.Context) Context {
 func NewValidateContext(
 	registry translation.Registry,
 	preferredLocale string,
+	opts ...ContextOption,
 ) Context {
+	o := newValidateContextOptions(opts...)
 	return validateContext{
 		registry:        registry,
 		preferredLocale: preferredLocale,
+		fieldNameGetter: o.fieldNameGetter,
+	}
+}
+
+type ContextOption func(o *validateContextOptions)
+
+type validateContextOptions struct {
+	fieldNameGetter FieldNameGetter
+}
+
+func newValidateContextOptions(options ...ContextOption) *validateContextOptions {
+	o := &validateContextOptions{
+		fieldNameGetter: defaultFieldNameKey,
+	}
+
+	for _, option := range options {
+		option(o)
+	}
+
+	return o
+}
+
+func WithFieldNameGetter(f FieldNameGetter) ContextOption {
+	return func(o *validateContextOptions) {
+		o.fieldNameGetter = f
 	}
 }
 

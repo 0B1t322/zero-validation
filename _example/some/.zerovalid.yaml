@@ -1,0 +1,26 @@
+grpc:
+  exclude:
+    - "^.*Response$"
+
+additional_tags:
+  - matches:
+    - "^Entity$"
+    field_tags:
+      - field_name: Id
+        tags:
+          ru: "ID сущности"
+
+# to parse packages directly
+packages:
+  "github.com/0B1t322/zero-validation/example/some/internal/models":
+    structs:
+      include:
+        - "^Todo$"
+      exclude:
+        - "^Some$"
+    dst: "internal/models/extractors"
+  "github.com/ogen-go/ogen":
+    structs:
+      include:
+        - "^Schema"
+    dst: "internal/models/ogen/extractors"

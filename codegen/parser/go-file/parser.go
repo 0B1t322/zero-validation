@@ -8,7 +8,12 @@ import (
 	"go/token"
 	"net/url"
 	"os"
+	"path"
 )
+
+type tagParser interface {
+	ParseTag(tag string) map[string]string
+}
 
 // Parser for provided pkg
 type Parser struct {
@@ -17,13 +22,18 @@ type Parser struct {
 	structs []model.Struct
 
 	fileParse *fileParser
+
+	tagParser tagParser
 }
 
 func NewParser(opts ...Option) *Parser {
 	opt := newOptions(opts...)
 	p := &Parser{
-		fset:      token.NewFileSet(),
-		fileParse: newFileParser(opt.buildStructMatcher()),
+		fset: token.NewFileSet(),
+		fileParse: newFileParser(
+			opt.buildStructMatcher(),
+			opt.buildTagsParser(),
+		),
 	}
 
 	return p
@@ -38,8 +48,8 @@ func (p *Parser) ParsedStructs() []model.Struct {
 	return p.structs
 }
 
-func (p *Parser) ParsePackage(path string) error {
-	dirEntrys, err := os.ReadDir(path)
+func (p *Parser) ParsePackage(pkgPath string) error {
+	dirEntrys, err := os.ReadDir(pkgPath)
 	if err != nil {
 		return fmt.Errorf("failed to read directory: %w", err)
 	}
@@ -49,9 +59,13 @@ func (p *Parser) ParsePackage(path string) error {
 			continue
 		}
 
-		astFile, err := p.parseFileByParentPathAndFileName(path, entry.Name())
+		if path.Ext(entry.Name()) != ".go" {
+			continue
+		}
+
+		astFile, err := p.parseFileByParentPathAndFileName(pkgPath, entry.Name())
 		if err != nil {
-			return fmt.Errorf("failed to parseFileByUrl path=%s, fileName=%s: %w", path, entry.Name(), err)
+			return fmt.Errorf("failed to parseFileByUrl pkgPath=%s, fileName=%s: %w", pkgPath, entry.Name(), err)
 		}
 
 		err = p.ParseAstFile(astFile)

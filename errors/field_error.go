@@ -21,7 +21,7 @@ var (
 )
 
 type FieldError struct {
-	Field Field
+	Field string
 	err   error
 }
 
@@ -49,9 +49,9 @@ func (fes FieldErrors) Error() string {
 	return b.String()
 }
 
-func NewFieldError(field Field, err error) *FieldError {
+func NewFieldError(fieldName string, err error) *FieldError {
 	fieldErr := fieldErrorPool.Get().(*FieldError)
-	fieldErr.Field = field
+	fieldErr.Field = fieldName
 	fieldErr.err = err
 	return fieldErr
 }
@@ -89,7 +89,7 @@ func ReleaseFieldErrors(fe FieldErrors) {
 }
 
 func ReleaseFieldError(fe *FieldError) {
-	fe.Field = nil
+	fe.Field = ""
 	fe.err = nil
 	fieldErrorPool.Put(fe)
 }
@@ -97,7 +97,7 @@ func ReleaseFieldError(fe *FieldError) {
 func FieldErrorToErrors(fs FieldErrors) Errors {
 	errs := make(Errors, len(fs))
 	for _, fe := range fs {
-		field := fe.Field.GetName()
+		field := fe.Field
 
 		err := fe.err
 		if fes, ok := err.(FieldErrors); ok {

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/0B1t322/zero-validaton/codegen/config"
 	"github.com/0B1t322/zero-validaton/codegen/generator"
+	tags_adder "github.com/0B1t322/zero-validaton/codegen/generator/tags-adder"
 	model "github.com/0B1t322/zero-validaton/codegen/parser"
 	parser "github.com/0B1t322/zero-validaton/codegen/parser/proto"
 	"google.golang.org/protobuf/compiler/protogen"
@@ -17,10 +18,33 @@ type GRPC struct {
 
 func NewGRPC(gen *protogen.Plugin, cfg config.Config) *GRPC {
 	return &GRPC{
-		cfg:       cfg,
-		generator: generator.NewGenerator(),
-		gen:       gen,
+		cfg: cfg,
+		generator: generator.NewGenerator(
+			generationOptionsFromConfig(cfg)...,
+		),
+		gen: gen,
 	}
+}
+
+func generationOptionsFromConfig(cfg config.Config) []generator.Option {
+	opts := []generator.Option{}
+	if len(cfg.AdditionalTags) > 0 {
+		opts = append(opts, tagsAdderOptionFromAdditionalTags(cfg.AdditionalTags))
+	}
+
+	return opts
+}
+
+func tagsAdderOptionFromAdditionalTags(tagsCfg []config.AdditionalTags) generator.Option {
+	tagsAdders := make([]*tags_adder.TagsAdder, 0, len(tagsCfg))
+
+	for _, tagCfg := range tagsCfg {
+		tagsAdders = append(tagsAdders, tags_adder.TagsAdderFromConfiguration(tagCfg))
+	}
+
+	tagsAdder := tags_adder.NewMultiTagsAdder(tagsAdders)
+
+	return generator.WithTagsAdder(tagsAdder)
 }
 
 func (g *GRPC) Generate() error {

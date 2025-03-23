@@ -48,7 +48,7 @@ func (c *exampleClient) CreateSome(ctx context.Context, in *CreateSomeRequest, o
 	return out, nil
 }
 
-// ExampleServer is the server API for Example service.
+// ExampleServer is the graphql API for Example service.
 // All implementations must embed UnimplementedExampleServer
 // for forward compatibility.
 type ExampleServer interface {

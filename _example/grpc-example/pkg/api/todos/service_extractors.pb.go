@@ -13,10 +13,7 @@ type createSomeRequest_InnerMessageExtractor struct {
 var ValidateCreateSomeRequest_InnerMessage = createSomeRequest_InnerMessageExtractor{
 	Some: field.NewField(
 		"Some",
-		map[string]string{
-			"json":  "some",
-			"proto": "some",
-		},
+		map[string]string{"proto": "some", "json": "some"},
 		func(from *CreateSomeRequest_InnerMessage) string { return from.Some },
 	),
 }
@@ -41,98 +38,62 @@ type createSomeRequestExtractor struct {
 var ValidateCreateSomeRequest = createSomeRequestExtractor{
 	BaseType: field.NewField(
 		"BaseType",
-		map[string]string{
-			"json":  "baseType",
-			"proto": "base_type",
-		},
+		map[string]string{"json": "baseType", "proto": "base_type"},
 		func(from *CreateSomeRequest) uint64 { return from.BaseType },
 	),
 	BaseTypeArray: field.NewField(
 		"BaseTypeArray",
-		map[string]string{
-			"json":  "baseTypeArray",
-			"proto": "base_type_array",
-		},
+		map[string]string{"json": "baseTypeArray", "proto": "base_type_array"},
 		func(from *CreateSomeRequest) []uint64 { return from.BaseTypeArray },
 	),
 	OptBaseType: field.NewField(
 		"OptBaseType",
-		map[string]string{
-			"json":  "optBaseType",
-			"proto": "opt_base_type",
-		},
+		map[string]string{"json": "optBaseType", "proto": "opt_base_type"},
 		func(from *CreateSomeRequest) *uint64 { return from.OptBaseType },
 	),
 	RepeatedBytes: field.NewField(
 		"RepeatedBytes",
-		map[string]string{
-			"json":  "repeatedBytes",
-			"proto": "repeated_bytes",
-		},
+		map[string]string{"json": "repeatedBytes", "proto": "repeated_bytes"},
 		func(from *CreateSomeRequest) [][]byte { return from.RepeatedBytes },
 	),
 	Enum: field.NewField(
 		"Enum",
-		map[string]string{
-			"json":  "enum",
-			"proto": "enum",
-		},
+		map[string]string{"json": "enum", "proto": "enum"},
 		func(from *CreateSomeRequest) Enum { return from.Enum },
 	),
 	ExternalEnum: field.NewField(
 		"ExternalEnum",
-		map[string]string{
-			"json":  "externalEnum",
-			"proto": "external_enum",
-		},
+		map[string]string{"json": "externalEnum", "proto": "external_enum"},
 		func(from *CreateSomeRequest) external.Enum { return from.ExternalEnum },
 	),
 	Entity: field.NewField(
 		"Entity",
-		map[string]string{
-			"json":  "entity",
-			"proto": "entity",
-		},
+		map[string]string{"json": "entity", "proto": "entity"},
 		func(from *CreateSomeRequest) *Entity { return from.Entity },
 	),
 	Entities: field.NewField(
 		"Entities",
-		map[string]string{
-			"json":  "entities",
-			"proto": "entities",
-		},
+		map[string]string{"json": "entities", "proto": "entities"},
 		func(from *CreateSomeRequest) []*Entity { return from.Entities },
 	),
 	Enums: field.NewField(
 		"Enums",
-		map[string]string{
-			"json":  "enums",
-			"proto": "enums",
-		},
+		map[string]string{"json": "enums", "proto": "enums"},
 		func(from *CreateSomeRequest) []Enum { return from.Enums },
 	),
 	ExternalEnums: field.NewField(
 		"ExternalEnums",
-		map[string]string{
-			"json":  "externalEnums",
-			"proto": "external_enums",
-		},
+		map[string]string{"json": "externalEnums", "proto": "external_enums"},
 		func(from *CreateSomeRequest) []external.Enum { return from.ExternalEnums },
 	),
 	InnterMessage: field.NewField(
 		"InnterMessage",
-		map[string]string{
-			"json":  "innterMessage",
-			"proto": "innter_message",
-		},
+		map[string]string{"json": "innterMessage", "proto": "innter_message"},
 		func(from *CreateSomeRequest) *CreateSomeRequest_InnerMessage { return from.InnterMessage },
 	),
 	InnterMessages: field.NewField(
 		"InnterMessages",
-		map[string]string{
-			"json":  "innterMessages",
-			"proto": "innter_messages",
-		},
+		map[string]string{"json": "innterMessages", "proto": "innter_messages"},
 		func(from *CreateSomeRequest) []*CreateSomeRequest_InnerMessage { return from.InnterMessages },
 	),
 	OneofExample: field.NewField(
@@ -142,10 +103,7 @@ var ValidateCreateSomeRequest = createSomeRequestExtractor{
 	),
 	InnerEnum: field.NewField(
 		"InnerEnum",
-		map[string]string{
-			"json":  "innerEnum",
-			"proto": "inner_enum",
-		},
+		map[string]string{"proto": "inner_enum", "json": "innerEnum"},
 		func(from *CreateSomeRequest) CreateSomeRequest_InnerEnum { return from.InnerEnum },
 	),
 }
@@ -157,10 +115,7 @@ type createSomeRequest_UintExtractor struct {
 var ValidateCreateSomeRequest_Uint = createSomeRequest_UintExtractor{
 	Uint: field.NewField(
 		"Uint",
-		map[string]string{
-			"json":  "uint",
-			"proto": "uint",
-		},
+		map[string]string{"json": "uint", "proto": "uint"},
 		func(from *CreateSomeRequest_Uint) uint64 { return from.Uint },
 	),
 }
@@ -172,10 +127,7 @@ type createSomeRequest_EnumTypeExtractor struct {
 var ValidateCreateSomeRequest_EnumType = createSomeRequest_EnumTypeExtractor{
 	EnumType: field.NewField(
 		"EnumType",
-		map[string]string{
-			"json":  "enumType",
-			"proto": "enum_type",
-		},
+		map[string]string{"json": "enumType", "proto": "enum_type"},
 		func(from *CreateSomeRequest_EnumType) Enum { return from.EnumType },
 	),
 }
@@ -187,10 +139,7 @@ type createSomeRequest_InnerMessage_Extractor struct {
 var ValidateCreateSomeRequest_InnerMessage_ = createSomeRequest_InnerMessage_Extractor{
 	InnerMessage: field.NewField(
 		"InnerMessage",
-		map[string]string{
-			"json":  "innerMessage",
-			"proto": "inner_message",
-		},
+		map[string]string{"json": "innerMessage", "proto": "inner_message"},
 		func(from *CreateSomeRequest_InnerMessage_) *CreateSomeRequest_InnerMessage { return from.InnerMessage },
 	),
 }
@@ -202,10 +151,7 @@ type entityExtractor struct {
 var ValidateEntity = entityExtractor{
 	Id: field.NewField(
 		"Id",
-		map[string]string{
-			"json":  "id",
-			"proto": "id",
-		},
+		map[string]string{"json": "id", "proto": "id", "ru": "ID сущности"},
 		func(from *Entity) uint64 { return from.Id },
 	),
 }
