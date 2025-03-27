@@ -76,10 +76,6 @@ func (s *structMatcherDecorator) Match(structName string) bool {
 	return s.first.Match(structName) && s.second.Match(structName)
 }
 
-func (s *structMatcherDecorator) String() string {
-	return fmt.Sprintf("first matcher: %s\nsecond matcher: %s", s.first, s.second)
-}
-
 func NewStructMatcherDecorator(first, second StructMatcher) StructMatcher {
 	return &structMatcherDecorator{
 		first:  first,

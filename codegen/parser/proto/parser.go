@@ -68,7 +68,6 @@ func (p *Parser) ParseFile(file *protogen.File) error {
 }
 
 func (p *Parser) getProvidedMessagesToParse(file *protogen.File) iter.Seq[*protogen.Message] {
-	//	TODO: add struct matcher
 	return func(yield func(*protogen.Message) bool) {
 		for _, m := range file.Messages {
 			if !p.recursiveMessageTravesal(m, yield) {
@@ -146,31 +145,27 @@ func (p *Parser) parseMessageOneOfs(message *protogen.Message) error {
 		if oneof.Desc.IsSynthetic() {
 			continue
 		}
-
-		oneOfStructs, err := p.messageOneOfToStructs(message, oneof)
+		oneOfStructs, err := p.oneOfToStructs(oneof)
 		if err != nil {
 			return err
 		}
-
 		p.structs = append(p.structs, oneOfStructs...)
 	}
 
 	return nil
 }
 
-func (p *Parser) messageOneOfToStructs(_ *protogen.Message, oneOf *protogen.Oneof) ([]parser.Struct, error) {
+func (p *Parser) oneOfToStructs(oneOf *protogen.Oneof) ([]parser.Struct, error) {
 	oneOfStructs := make([]parser.Struct, 0, len(oneOf.Fields))
 	for _, field := range oneOf.Fields {
 		oneOfField, err := p.parseField(field)
 		if err != nil {
 			return nil, err
 		}
-
 		oneOfStruct := parser.Struct{
 			Name:   field.GoIdent.GoName,
 			Fields: []parser.Field{oneOfField},
 		}
-
 		oneOfStructs = append(oneOfStructs, oneOfStruct)
 	}
 
@@ -181,10 +176,9 @@ func (p *Parser) parseOneOfField(field *protogen.Field) (parser.Field, error) {
 	if field.Oneof.Desc.IsSynthetic() {
 		return parser.Field{}, fmt.Errorf("%w: one of for optional field", errSkip)
 	}
-
 	return parser.Field{
 		Name: field.Oneof.GoName,
-		Type: field_type.CustomFiled(
+		Type: field_type.CustomField(
 			"is"+field.Oneof.GoIdent.GoName,
 			"",
 			"",
@@ -234,7 +228,7 @@ func (p *Parser) parseCustomType(field *protogen.Field) (field_type.FieldTyper, 
 	}
 
 	var customFieldType field_type.FieldTyper
-	customFieldType = field_type.CustomFiled(
+	customFieldType = field_type.CustomField(
 		getTypeName(field),
 		"",
 		pkgPath,
@@ -306,7 +300,6 @@ func tryGetBasicTypeFromKind(desc protoreflect.FieldDescriptor) (field_type.Fiel
 		return nil, false
 	}
 
-	// is field optional it have one_of
 	if desc.HasOptionalKeyword() {
 		basicFieldType = field_type.PtrField(basicFieldType)
 	}

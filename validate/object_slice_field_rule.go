@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/0B1t322/zero-validaton/errors"
 	"github.com/0B1t322/zero-validaton/field"
+	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
 )
 
 type objectSliceFieldRule[T any, V any] struct {
@@ -16,11 +17,14 @@ func (s *objectSliceFieldRule[T, V]) GetFieldName() string {
 	return s.extractor.Name()
 }
 
-func (s *objectSliceFieldRule[T, V]) Validate(ctx Context, obj T) *errors.FieldError {
+func (s *objectSliceFieldRule[T, V]) Validate(ctx validatecontext.Context, obj T) *errors.FieldError {
 	slice := s.extractor.ExtractValue(obj)
 
 	var errs errors.FieldErrors
 	for _, fieldRule := range s.fieldRules {
+		if len(errs) > 0 && ctx.IsStopAfterFirstError() {
+			break
+		}
 		for i, value := range slice {
 			var err *errors.FieldError
 			err = fieldRule.Validate(ctx, value)

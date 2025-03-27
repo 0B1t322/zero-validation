@@ -5,6 +5,7 @@ import (
 	errors_v2 "github.com/0B1t322/zero-validaton/errors"
 	"github.com/0B1t322/zero-validaton/translation"
 	"github.com/0B1t322/zero-validaton/translation/locales/ru"
+	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
 	"testing"
 )
 
@@ -16,11 +17,7 @@ func TestTranslateError(t *testing.T) {
 	err := errors_v2.NewErrorObject("required", "some")
 	//ctx := context.Background()
 
-	vCtx := &validateContext{
-		//Context:         ctx,
-		registry:        registry,
-		preferredLocale: registry.DefaultLocale(),
-	}
+	vCtx := validatecontext.New(registry, registry.DefaultLocale())
 
 	t.Log(err)
 
@@ -44,11 +41,7 @@ func BenchmarkTranslateError(b *testing.B) {
 				err := fmt.Errorf("test error")
 				//ctx := context.Background()
 
-				vCtx := &validateContext{
-					//Context:         ctx,
-					registry:        registry,
-					preferredLocale: registry.DefaultLocale(),
-				}
+				vCtx := validatecontext.New(registry, registry.DefaultLocale())
 
 				b.RunParallel(func(pb *testing.PB) {
 					for pb.Next() {
@@ -63,11 +56,7 @@ func BenchmarkTranslateError(b *testing.B) {
 				err := errors_v2.NewErrorObject("required", "some")
 				//ctx := context.Background()
 
-				vCtx := &validateContext{
-					//Context:         ctx,
-					registry:        registry,
-					preferredLocale: registry.DefaultLocale(),
-				}
+				vCtx := validatecontext.New(registry, registry.DefaultLocale())
 
 				b.RunParallel(func(pb *testing.PB) {
 					for pb.Next() {

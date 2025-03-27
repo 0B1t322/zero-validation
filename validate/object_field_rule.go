@@ -3,6 +3,7 @@ package validate
 import (
 	"github.com/0B1t322/zero-validaton/errors"
 	"github.com/0B1t322/zero-validaton/field"
+	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
 )
 
 type objectField[T any, V any] struct {
@@ -15,13 +16,13 @@ func (c *objectField[T, V]) GetFieldName() string {
 	return c.extractor.Name()
 }
 
-func (c *objectField[T, V]) Validate(ctx Context, obj T) *errors.FieldError {
+func (c *objectField[T, V]) Validate(ctx validatecontext.Context, obj T) *errors.FieldError {
 	value := c.extractor.ExtractValue(obj)
 
 	return c.validate(ctx, value)
 }
 
-func (c *objectField[T, V]) validateRules(ctx Context, obj V) errors.FieldErrors {
+func (c *objectField[T, V]) validateRules(ctx validatecontext.Context, obj V) errors.FieldErrors {
 	var fieldErrors errors.FieldErrors
 	for _, rule := range c.fieldRules {
 		if err := rule.Validate(ctx, obj); err != nil {
@@ -29,13 +30,16 @@ func (c *objectField[T, V]) validateRules(ctx Context, obj V) errors.FieldErrors
 				fieldErrors = errors.NewFieldErrors()
 			}
 			fieldErrors = append(fieldErrors, err)
+			if ctx.IsStopAfterFirstError() {
+				break
+			}
 		}
 	}
 
 	return fieldErrors
 }
 
-func (c *objectField[T, V]) validate(ctx Context, obj V) *errors.FieldError {
+func (c *objectField[T, V]) validate(ctx validatecontext.Context, obj V) *errors.FieldError {
 	errs := c.validateRules(ctx, obj)
 
 	if len(errs) == 0 {

@@ -24,9 +24,7 @@ func TestStructMatcher_Match(t *testing.T) {
 			args: args{
 				structName: "Some",
 			},
-			init: func() StructMatcher {
-				return NewBuilder().Build()
-			},
+			init:     func() StructMatcher { return NewBuilder().Build() },
 			wantBool: assert.True,
 		},
 		{
@@ -34,11 +32,7 @@ func TestStructMatcher_Match(t *testing.T) {
 			args: args{
 				structName: "Some",
 			},
-			init: func() StructMatcher {
-				return NewBuilder().
-					AddRegexpMatches("Some").
-					Build()
-			},
+			init:     func() StructMatcher { return NewBuilder().AddRegexpMatches("Some").Build() },
 			wantBool: assert.True,
 		},
 		{
@@ -47,9 +41,7 @@ func TestStructMatcher_Match(t *testing.T) {
 				structName: "Req",
 			},
 			init: func() StructMatcher {
-				return NewBuilder().
-					AddRegexpMatches("Some").
-					Build()
+				return NewBuilder().AddRegexpMatches("Some").Build()
 			},
 			wantBool: assert.False,
 		},
@@ -58,11 +50,7 @@ func TestStructMatcher_Match(t *testing.T) {
 			args: args{
 				structName: "Req",
 			},
-			init: func() StructMatcher {
-				return NewBuilder().
-					AddRegexpExcludes("Some").
-					Build()
-			},
+			init:     func() StructMatcher { return NewBuilder().AddRegexpExcludes("Some").Build() },
 			wantBool: assert.True,
 		},
 		{
@@ -70,11 +58,7 @@ func TestStructMatcher_Match(t *testing.T) {
 			args: args{
 				structName: "Some",
 			},
-			init: func() StructMatcher {
-				return NewBuilder().
-					AddRegexpExcludes("Some").
-					Build()
-			},
+			init:     func() StructMatcher { return NewBuilder().AddRegexpExcludes("Some").Build() },
 			wantBool: assert.False,
 		},
 		{
@@ -83,10 +67,7 @@ func TestStructMatcher_Match(t *testing.T) {
 				structName: "Some",
 			},
 			init: func() StructMatcher {
-				return NewBuilder().
-					AddRegexpMatches("Some").
-					AddRegexpExcludes("Response").
-					Build()
+				return NewBuilder().AddRegexpMatches("Some").AddRegexpExcludes("Response").Build()
 			},
 			wantBool: assert.True,
 		},
@@ -96,10 +77,7 @@ func TestStructMatcher_Match(t *testing.T) {
 				structName: "Response",
 			},
 			init: func() StructMatcher {
-				return NewBuilder().
-					AddRegexpMatches("Some").
-					AddRegexpExcludes("Response").
-					Build()
+				return NewBuilder().AddRegexpMatches("Some").AddRegexpExcludes("Response").Build()
 			},
 			wantBool: assert.False,
 		},

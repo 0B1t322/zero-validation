@@ -57,7 +57,7 @@ func (c Custom) Accept(visitor Visitor) {
 	visitor.VisitCustom(c)
 }
 
-func CustomFiled(name, pkgName, pkgPath string) Custom {
+func CustomField(name, pkgName, pkgPath string) Custom {
 	return Custom{
 		Name:    name,
 		PkgName: pkgName,

@@ -1,5 +1,7 @@
 package validate
 
+import validatecontext "github.com/0B1t322/zero-validaton/validate/context"
+
 type Rule[T any] interface {
-	Validate(v T) error
+	Validate(ctx validatecontext.Context, v T) error
 }

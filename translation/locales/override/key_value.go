@@ -15,6 +15,11 @@ func NewTemplateByCode(code string, tmpl *template.Template) TemplateByCode {
 	}
 }
 
+// NewTemplateByCodeFromText ...
+func NewTemplateByCodeFromText(code string, tmplText string) TemplateByCode {
+	return NewTemplateByCode(code, template.Must(template.New("code").Parse(tmplText)))
+}
+
 func (t templateByCode) GetCode() string {
 	return t.code
 }

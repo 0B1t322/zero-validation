@@ -3,6 +3,7 @@ package validate
 import (
 	errors "github.com/0B1t322/zero-validaton/errors"
 	"github.com/0B1t322/zero-validaton/field"
+	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
 )
 
 type fielder[T any, V any] struct {
@@ -29,14 +30,13 @@ type fieldRule[T any, V any] struct {
 }
 
 type FieldRule[T any] interface {
-	GetFieldName() string
-	Validate(ctx Context, obj T) *errors.FieldError
+	Validate(ctx validatecontext.Context, obj T) *errors.FieldError
 }
 
-func (f *fieldRule[T, V]) Validate(ctx Context, obj T) *errors.FieldError {
+func (f *fieldRule[T, V]) Validate(ctx validatecontext.Context, obj T) *errors.FieldError {
 	v := f.valueExtractor.ExtractValue(obj)
 	for _, rule := range f.rules {
-		if err := rule.Validate(v); err != nil {
+		if err := rule.Validate(ctx, v); err != nil {
 			err = TranslateError(ctx, err)
 			return errors.NewFieldError(
 				ctx.FieldNameGetter().GetFieldName(f.filder.valueExtractor),

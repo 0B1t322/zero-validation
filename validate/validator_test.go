@@ -3,19 +3,49 @@ package validate
 import (
 	"context"
 	"github.com/0B1t322/zero-validaton/field"
+	fieldname "github.com/0B1t322/zero-validaton/field/name"
 	"github.com/0B1t322/zero-validaton/rule"
 	"github.com/0B1t322/zero-validaton/translation"
+	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
 	"testing"
 )
 
 type Object struct {
 	ID   uint64
 	Name string
+	Some someInterface
 }
+
+type someInterface interface {
+	isSomeInterface()
+}
+
+type someImpl1 struct {
+	Value uint64
+}
+
+type someImpl1Extractor struct {
+	Value field.StructField[someImpl1, uint64]
+}
+
+var SomeImpl1 = someImpl1Extractor{
+	Value: field.NewField("Value", nil, func(from someImpl1) uint64 {
+		return from.Value
+	}),
+}
+
+type someImpl2 struct {
+	AnotherValue uint64
+}
+
+func (someImpl1) isSomeInterface() {}
+
+func (someImpl2) isSomeInterface() {}
 
 type objectExtractor struct {
 	ID   field.StructField[Object, uint64]
 	Name field.StructField[Object, string]
+	Some field.StructField[Object, someInterface]
 }
 
 var ExtractObject = objectExtractor{
@@ -30,24 +60,45 @@ var ExtractObject = objectExtractor{
 	}, func(from Object) string {
 		return from.Name
 	}),
+	Some: field.NewField("Some", nil, func(from Object) someInterface {
+		return from.Some
+	}),
 }
 
 func TestSome(t *testing.T) {
 	t.Parallel()
 
 	ctx := context.Background()
-	obj := Object{}
-	ctx = FieldNameGetterToContext(ctx, NewFieldNameGetterStrategy(
+	obj := Object{
+		Name: "special",
+	}
+	vCtx := validatecontext.New(
+		translation.GlobalRegistry(),
 		"ru",
-		FieldNameProto,
-	))
+		validatecontext.WithFieldNameGetter(fieldname.NewGetterStrategy(
+			"ru",
+			fieldname.Proto,
+		)),
+		validatecontext.WithStopAfterFirstError(),
+	)
+
+	ctx = validatecontext.ToContext(ctx, vCtx)
 
 	err := Struct(
 		ctx,
 		obj,
-		Field(
-			ExtractObject.ID,
-			rule.Required[uint64](),
+		If(Object.IsNameNotSpecial,
+			Field(
+				ExtractObject.ID,
+				rule.Required[uint64](),
+			),
+		),
+		IfFieldTypeOf[someImpl1](
+			ExtractObject.Some,
+			Field(
+				SomeImpl1.Value,
+				rule.Required[uint64](),
+			),
 		),
 		Field(
 			ExtractObject.Name,
@@ -57,14 +108,22 @@ func TestSome(t *testing.T) {
 	t.Log(err)
 }
 
+func (o Object) IsIdEval() bool {
+	return o.ID%2 == 0
+}
+
+func (o Object) IsNameNotSpecial() bool {
+	return o.Name != "special"
+}
+
 func BenchmarkTranslate(b *testing.B) {
 	ctx := context.Background()
-	ctx = ValidateContextToContext(ctx, NewValidateContext(
+	ctx = validatecontext.ToContext(ctx, validatecontext.New(
 		translation.GlobalRegistry(),
 		"en",
-		WithFieldNameGetter(NewFieldNameGetterStrategy(
+		validatecontext.WithFieldNameGetter(fieldname.NewGetterStrategy(
 			"ru",
-			FieldNameProto,
+			fieldname.Proto,
 		)),
 	))
 

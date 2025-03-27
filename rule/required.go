@@ -2,6 +2,7 @@ package rule
 
 import (
 	errors "github.com/0B1t322/zero-validaton/errors"
+	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
 )
 
 var (
@@ -28,7 +29,7 @@ func (r *RequiredRule[T]) SetError(err error) *RequiredRule[T] {
 	return r
 }
 
-func (r *RequiredRule[T]) Validate(value T) error {
+func (r *RequiredRule[T]) Validate(_ validatecontext.Context, value T) error {
 	var def T
 	if def == value {
 		return r.err
@@ -52,7 +53,7 @@ func (r *RequiredPtrRule[T, P]) SetError(err error) *RequiredPtrRule[T, P] {
 	return r
 }
 
-func (r *RequiredPtrRule[T, P]) Validate(value P) error {
+func (r *RequiredPtrRule[T, P]) Validate(_ validatecontext.Context, value P) error {
 	if value == nil {
 		return r.err
 	}
@@ -81,7 +82,7 @@ func (r *RequiredSliceRule[T, P]) SetError(err error) *RequiredSliceRule[T, P] {
 	return r
 }
 
-func (r *RequiredSliceRule[T, P]) Validate(value P) error {
+func (r *RequiredSliceRule[T, P]) Validate(_ validatecontext.Context, value P) error {
 	if len(value) == 0 {
 		return r.err
 	}

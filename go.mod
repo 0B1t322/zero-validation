@@ -2,8 +2,6 @@ module github.com/0B1t322/zero-validaton
 
 go 1.23.0
 
-toolchain go1.23.3
-
 require (
 	github.com/99designs/gqlgen v0.17.68
 	github.com/stretchr/testify v1.10.0

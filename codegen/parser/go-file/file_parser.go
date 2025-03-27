@@ -155,7 +155,7 @@ func (f *fileParser) parseFieldType(fieldTypeExpr ast.Expr) (field_type.FieldTyp
 				return basic, nil
 			}
 
-			return field_type.CustomFiled(expr.Name, "", ""), nil
+			return field_type.CustomField(expr.Name, "", ""), nil
 		case *ast.SelectorExpr:
 			pkgName := expr.X.(*ast.Ident).Name
 			pkgPath, err := f.getPkgPathByAlias(pkgName)
@@ -163,7 +163,7 @@ func (f *fileParser) parseFieldType(fieldTypeExpr ast.Expr) (field_type.FieldTyp
 				return nil, err
 			}
 
-			return field_type.CustomFiled(expr.Sel.Name, pkgName, pkgPath), nil
+			return field_type.CustomField(expr.Sel.Name, pkgName, pkgPath), nil
 		case *ast.IndexExpr:
 			//	generic
 			typeInGeneric, err := f.parseFieldType(expr.Index)

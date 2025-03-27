@@ -13,6 +13,13 @@ type Resolver struct {
 	*tasks.Tasks
 }
 
+func NewResolver(todos *todos2.Todos, tasks *tasks.Tasks) *Resolver {
+	return &Resolver{
+		Todos: todos,
+		Tasks: tasks,
+	}
+}
+
 // Mutation returns api.MutationResolver implementation.
 func (r *Resolver) Mutation() api.MutationResolver { return r }
 

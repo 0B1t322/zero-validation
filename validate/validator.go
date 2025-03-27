@@ -2,12 +2,13 @@ package validate
 
 import (
 	"context"
+	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
 
 	errors "github.com/0B1t322/zero-validaton/errors"
 )
 
 func Struct[T any](ctx context.Context, obj T, fieldRules ...FieldRule[T]) error {
-	vCtx := newValidateContextFromContext(ctx)
+	vCtx := validatecontext.NewFromContext(ctx)
 
 	var errs errors.FieldErrors
 	for _, fieldRule := range fieldRules {
@@ -16,6 +17,10 @@ func Struct[T any](ctx context.Context, obj T, fieldRules ...FieldRule[T]) error
 				errs = errors.NewFieldErrors(errors.WithStartCap(len(fieldRules)))
 			}
 			errs = append(errs, err)
+
+			if vCtx.IsStopAfterFirstError() {
+				break
+			}
 		}
 	}
 

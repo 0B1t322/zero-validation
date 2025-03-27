@@ -24,10 +24,6 @@ func (Basic) Kind() Kind {
 	return KindBasic
 }
 
-//func (Basic) Unwrap() FieldTyper {
-//	return nil
-//}
-
 func (Basic) Unwraps() []FieldTyper {
 	return nil
 }

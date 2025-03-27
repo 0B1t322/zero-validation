@@ -3,15 +3,8 @@ package errors
 import (
 	"encoding/json"
 	"strings"
-	"sync"
 	"text/template"
 )
-
-var errStringBuilderPool = sync.Pool{
-	New: func() any {
-		return new(strings.Builder)
-	},
-}
 
 type ErrorObject struct {
 	code   string
@@ -51,8 +44,6 @@ func (e ErrorObject) Error() string {
 	text := b.String()
 
 	b.Reset()
-
-	errStringBuilderPool.Put(b)
 
 	return text
 }

@@ -138,10 +138,10 @@ func (p *Parser) parseFieldType(fieldType types.Type) (field_type.FieldTyper, er
 			return field_type.SliceField(innerFieldType), nil
 		case *types.Named:
 			if p.parsedFilePackagePath == currentType.Obj().Pkg().Path() {
-				return field_type.CustomFiled(currentType.Obj().Name(), "", ""), nil
+				return field_type.CustomField(currentType.Obj().Name(), "", ""), nil
 			}
 
-			return field_type.CustomFiled(
+			return field_type.CustomField(
 				currentType.Obj().Name(),
 				"",
 				currentType.Obj().Pkg().Path(),

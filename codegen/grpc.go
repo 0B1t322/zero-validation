@@ -55,14 +55,11 @@ func (g *GRPC) Generate() error {
 		if !file.Generate {
 			continue
 		}
-
 		protoParser.Reset()
-
 		err := protoParser.ParseFile(file)
 		if err != nil {
 			return fmt.Errorf("parsing proto file: %w", err)
 		}
-
 		structs := protoParser.Structs()
 		if len(structs) == 0 {
 			continue

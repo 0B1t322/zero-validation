@@ -1,24 +1,28 @@
-package validate
+package validatecontext
 
 import (
 	"context"
+	fieldname "github.com/0B1t322/zero-validaton/field/name"
 	"github.com/0B1t322/zero-validaton/translation"
 )
 
 type Context interface {
 	GetRegistry() translation.Registry
 	GetPreferredLocale() string
-	FieldNameGetter() FieldNameGetter
+	FieldNameGetter() fieldname.Getter
+	IsStopAfterFirstError() bool
 }
 
-var defaultFieldNameKey = FieldNameKey("defaultFieldNameKey")
+var defaultFieldNameKey = fieldname.Key("defaultFieldNameKey")
 
 type validateContext struct {
 	registry translation.Registry
 
 	preferredLocale string
 
-	fieldNameGetter FieldNameGetter
+	fieldNameGetter fieldname.Getter
+
+	stopAfterFirstError bool
 }
 
 func (v validateContext) GetRegistry() translation.Registry {
@@ -29,12 +33,16 @@ func (v validateContext) GetPreferredLocale() string {
 	return v.preferredLocale
 }
 
-func (v validateContext) FieldNameGetter() FieldNameGetter {
+func (v validateContext) FieldNameGetter() fieldname.Getter {
 	return v.fieldNameGetter
 }
 
+func (v validateContext) IsStopAfterFirstError() bool {
+	return v.stopAfterFirstError
+}
+
 func newValidateContextFromContext(ctx context.Context) Context {
-	vCtx, ok := ValidateContextFromContext(ctx)
+	vCtx, ok := FromContext(ctx)
 	if ok {
 		return vCtx
 	}
@@ -49,7 +57,7 @@ func newValidateContextFromContext(ctx context.Context) Context {
 		locale = registry.DefaultLocale()
 	}
 
-	fieldName, isFind := FieldNameGetterFromContext(ctx)
+	fieldName, isFind := fieldname.GetterFromContext(ctx)
 	if !isFind {
 		fieldName = defaultFieldNameKey
 	}
@@ -61,29 +69,37 @@ func newValidateContextFromContext(ctx context.Context) Context {
 	}
 }
 
-// NewValidateContext ...
-func NewValidateContext(
+// NewFromContext ...
+func NewFromContext(ctx context.Context) Context {
+	return newValidateContextFromContext(ctx)
+}
+
+// New ...
+func New(
 	registry translation.Registry,
 	preferredLocale string,
 	opts ...ContextOption,
 ) Context {
 	o := newValidateContextOptions(opts...)
 	return validateContext{
-		registry:        registry,
-		preferredLocale: preferredLocale,
-		fieldNameGetter: o.fieldNameGetter,
+		registry:            registry,
+		preferredLocale:     preferredLocale,
+		fieldNameGetter:     o.fieldNameGetter,
+		stopAfterFirstError: o.stopAfterFirstError,
 	}
 }
 
 type ContextOption func(o *validateContextOptions)
 
 type validateContextOptions struct {
-	fieldNameGetter FieldNameGetter
+	fieldNameGetter     fieldname.Getter
+	stopAfterFirstError bool
 }
 
 func newValidateContextOptions(options ...ContextOption) *validateContextOptions {
 	o := &validateContextOptions{
-		fieldNameGetter: defaultFieldNameKey,
+		fieldNameGetter:     defaultFieldNameKey,
+		stopAfterFirstError: false,
 	}
 
 	for _, option := range options {
@@ -93,21 +109,27 @@ func newValidateContextOptions(options ...ContextOption) *validateContextOptions
 	return o
 }
 
-func WithFieldNameGetter(f FieldNameGetter) ContextOption {
+func WithFieldNameGetter(f fieldname.Getter) ContextOption {
 	return func(o *validateContextOptions) {
 		o.fieldNameGetter = f
 	}
 }
 
+func WithStopAfterFirstError() ContextOption {
+	return func(o *validateContextOptions) {
+		o.stopAfterFirstError = true
+	}
+}
+
 type validateContextKey struct{}
 
-// ValidateContextToContext ...
-func ValidateContextToContext(ctx context.Context, vCtx Context) context.Context {
+// ToContext ...
+func ToContext(ctx context.Context, vCtx Context) context.Context {
 	return context.WithValue(ctx, validateContextKey{}, vCtx)
 }
 
-// ValidateContextFromContext ...
-func ValidateContextFromContext(ctx context.Context) (Context, bool) {
+// FromContext ...
+func FromContext(ctx context.Context) (Context, bool) {
 	vCtx, ok := ctx.Value(validateContextKey{}).(Context)
 	if !ok {
 		return nil, false
