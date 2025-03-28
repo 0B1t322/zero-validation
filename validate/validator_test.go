@@ -87,33 +87,12 @@ func TestSome(t *testing.T) {
 	err := Struct(
 		ctx,
 		obj,
-		If(Object.IsNameNotSpecial,
-			Field(
-				ExtractObject.ID,
-				rule.Required[uint64](),
-			),
-		),
-		IfFieldTypeOf[someImpl1](
-			ExtractObject.Some,
-			Field(
-				SomeImpl1.Value,
-				rule.Required[uint64](),
-			),
-		),
 		Field(
-			ExtractObject.Name,
-			rule.Required[string](),
+			ExtractObject.ID,
+			rule.In[uint64](1, 2),
 		),
 	)
 	t.Log(err)
-}
-
-func (o Object) IsIdEval() bool {
-	return o.ID%2 == 0
-}
-
-func (o Object) IsNameNotSpecial() bool {
-	return o.Name != "special"
 }
 
 func BenchmarkTranslate(b *testing.B) {

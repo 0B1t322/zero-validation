@@ -48,15 +48,44 @@ func (v *validatorTwo) Rules() []validate.FieldRule[string] {
 	}
 }
 
+func TestName(t *testing.T) {
+	t.Parallel()
+	//mapStore := NewDefaultMapStore()
+
+	//rules := GetOrInitValidatorRulesFromStore[*validator](mapStore)
+	//t.Log(rules)
+	//m := sync.Map{}
+
+}
+
 func BenchmarkDefaultMapStore_Get(b *testing.B) {
-	mapStore := DefaultMapStore()
-	InitValidator(mapStore, &validator{})
+	mapStore := NewDefaultMapStore()
+	InitValidatorInStore(mapStore, &validator{})
 
 	b.RunParallel(
 		func(pb *testing.PB) {
 			for pb.Next() {
-				_ = GetValidatorRules[*validator](mapStore)
+				_ = GetValidatorRulesFromStore[*validator](mapStore)
 			}
 		},
 	)
+}
+func BenchmarkName(b *testing.B) {
+	m := NewConcurrentMapStore()
+
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			_ = m.Get("")
+		}
+	})
+}
+
+func BenchmarkName2(b *testing.B) {
+	m := NewDefaultMapStore()
+
+	b.RunParallel(func(pb *testing.PB) {
+		for pb.Next() {
+			_ = m.Get("")
+		}
+	})
 }

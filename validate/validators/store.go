@@ -9,20 +9,31 @@ type ValidatorStore interface {
 	Set(key string, v any)
 }
 
-func GetValidatorRules[V Validator[T], T any](store ValidatorStore) []validate.FieldRule[T] {
+func GetValidatorRulesFromStore[V Validator[T], T any](store ValidatorStore) []validate.FieldRule[T] {
 	name := getValidatorName[T, V]()
 	wrap := store.Get(name).(Validator[T])
 	return wrap.Rules()
 }
 
-// InitValidator init validator into store
-func InitValidator[V Validator[T], T any](
+// InitValidatorInStore init validator into store
+func InitValidatorInStore[V Validator[T], T any](
 	store ValidatorStore,
 	validator V,
 ) {
 	wrapped := Wrap(validator)
 
 	store.Set(getValidatorName[T, V](), wrapped)
+}
+
+func GetOrInitValidatorRulesFromStore[V Validator[T], T any](store ValidatorStore) []validate.FieldRule[T] {
+	name := getValidatorName[T, V]()
+	wrap, isOk := store.Get(name).(Validator[T])
+	if !isOk {
+		var def V
+		store.Set(name, def)
+		wrap = def
+	}
+	return wrap.Rules()
 }
 
 func getValidatorName[T any, V Validator[T]]() string {

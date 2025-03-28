@@ -20,15 +20,9 @@ func (d *defaultMapStore) All() []any {
 	return all
 }
 
-func (d *defaultMapStore) Range(f func(key string, value any) bool) {
-	for k, v := range d.store {
-		if !f(k, v) {
-			break
-		}
-	}
-}
-
-func DefaultMapStore() ValidatorStore {
+// NewDefaultMapStore return default map store
+// it's not for concurrent write
+func NewDefaultMapStore() ValidatorStore {
 	return &defaultMapStore{
 		store: make(map[string]any),
 	}
