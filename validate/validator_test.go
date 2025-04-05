@@ -2,11 +2,11 @@ package validate
 
 import (
 	"context"
-	"github.com/0B1t322/zero-validaton/field"
-	fieldname "github.com/0B1t322/zero-validaton/field/name"
-	"github.com/0B1t322/zero-validaton/rule"
-	"github.com/0B1t322/zero-validaton/translation"
-	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
+	"github.com/0B1t322/zero-validation/field"
+	fieldname "github.com/0B1t322/zero-validation/field/name"
+	"github.com/0B1t322/zero-validation/rule"
+	"github.com/0B1t322/zero-validation/translation"
+	validatecontext "github.com/0B1t322/zero-validation/validate/context"
 	"testing"
 )
 

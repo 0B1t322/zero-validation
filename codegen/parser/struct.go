@@ -1,8 +1,8 @@
 package parser
 
 import (
-	field_type "github.com/0B1t322/zero-validaton/codegen/parser/field-type"
-	"github.com/0B1t322/zero-validaton/internal/set"
+	field_type "github.com/0B1t322/zero-validation/codegen/parser/field-type"
+	"github.com/0B1t322/zero-validation/internal/set"
 	"path"
 )
 

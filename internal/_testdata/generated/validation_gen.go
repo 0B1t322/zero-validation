@@ -2,7 +2,7 @@
 package generated
 
 import (
-	"github.com/0B1t322/zero-validaton/field"
+	"github.com/0B1t322/zero-validation/field"
 )
 
 type entityExtractor struct {

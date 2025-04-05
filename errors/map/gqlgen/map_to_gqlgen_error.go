@@ -3,7 +3,7 @@ package gqlgen
 import (
 	"context"
 	"errors"
-	verrors "github.com/0B1t322/zero-validaton/errors"
+	verrors "github.com/0B1t322/zero-validation/errors"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 )

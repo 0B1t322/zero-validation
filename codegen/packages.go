@@ -2,10 +2,10 @@ package codegen
 
 import (
 	"fmt"
-	"github.com/0B1t322/zero-validaton/codegen/config"
-	"github.com/0B1t322/zero-validaton/codegen/generator"
-	"github.com/0B1t322/zero-validaton/codegen/matcher"
-	packageparser "github.com/0B1t322/zero-validaton/codegen/parser/go-file"
+	"github.com/0B1t322/zero-validation/codegen/config"
+	"github.com/0B1t322/zero-validation/codegen/generator"
+	"github.com/0B1t322/zero-validation/codegen/matcher"
+	packageparser "github.com/0B1t322/zero-validation/codegen/parser/go-file"
 	"golang.org/x/tools/go/packages"
 	"path"
 	"strings"

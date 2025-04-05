@@ -1,6 +1,6 @@
 package tags_adder
 
-import "github.com/0B1t322/zero-validaton/codegen/parser"
+import "github.com/0B1t322/zero-validation/codegen/parser"
 
 type MultiTagsAdder struct {
 	TagsAdders []*TagsAdder

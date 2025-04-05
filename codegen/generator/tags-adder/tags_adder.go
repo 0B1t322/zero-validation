@@ -1,9 +1,9 @@
 package tags_adder
 
 import (
-	"github.com/0B1t322/zero-validaton/codegen/matcher"
-	"github.com/0B1t322/zero-validaton/codegen/parser"
-	"github.com/0B1t322/zero-validaton/internal/slices"
+	"github.com/0B1t322/zero-validation/codegen/matcher"
+	"github.com/0B1t322/zero-validation/codegen/parser"
+	"github.com/0B1t322/zero-validation/internal/slices"
 )
 
 type TagsAdder struct {

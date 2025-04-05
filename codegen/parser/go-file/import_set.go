@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"github.com/0B1t322/zero-validaton/codegen/parser"
-	"github.com/0B1t322/zero-validaton/internal/set"
+	"github.com/0B1t322/zero-validation/codegen/parser"
+	"github.com/0B1t322/zero-validation/internal/set"
 	"maps"
 )
 

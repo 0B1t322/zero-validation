@@ -3,9 +3,9 @@ package gqlgen
 import (
 	"errors"
 	"fmt"
-	"github.com/0B1t322/zero-validaton/codegen/matcher"
-	"github.com/0B1t322/zero-validaton/codegen/parser"
-	field_type "github.com/0B1t322/zero-validaton/codegen/parser/field-type"
+	"github.com/0B1t322/zero-validation/codegen/matcher"
+	"github.com/0B1t322/zero-validation/codegen/parser"
+	field_type "github.com/0B1t322/zero-validation/codegen/parser/field-type"
 	"github.com/99designs/gqlgen/codegen"
 	"go/types"
 )

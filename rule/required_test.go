@@ -1,8 +1,8 @@
 package rule
 
 import (
-	"github.com/0B1t322/zero-validaton/translation"
-	"github.com/0B1t322/zero-validaton/translation/locales/ru"
+	"github.com/0B1t322/zero-validation/translation"
+	"github.com/0B1t322/zero-validation/translation/locales/ru"
 	"testing"
 )
 

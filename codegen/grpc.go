@@ -2,11 +2,11 @@ package codegen
 
 import (
 	"fmt"
-	"github.com/0B1t322/zero-validaton/codegen/config"
-	"github.com/0B1t322/zero-validaton/codegen/generator"
-	tags_adder "github.com/0B1t322/zero-validaton/codegen/generator/tags-adder"
-	model "github.com/0B1t322/zero-validaton/codegen/parser"
-	parser "github.com/0B1t322/zero-validaton/codegen/parser/proto"
+	"github.com/0B1t322/zero-validation/codegen/config"
+	"github.com/0B1t322/zero-validation/codegen/generator"
+	tags_adder "github.com/0B1t322/zero-validation/codegen/generator/tags-adder"
+	model "github.com/0B1t322/zero-validation/codegen/parser"
+	parser "github.com/0B1t322/zero-validation/codegen/parser/proto"
 	"google.golang.org/protobuf/compiler/protogen"
 )
 

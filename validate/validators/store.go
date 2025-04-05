@@ -1,7 +1,7 @@
 package validators
 
 import (
-	"github.com/0B1t322/zero-validaton/validate"
+	"github.com/0B1t322/zero-validation/validate"
 )
 
 type ValidatorStore interface {

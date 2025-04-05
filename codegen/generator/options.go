@@ -1,7 +1,7 @@
 package generator
 
 import (
-	"github.com/0B1t322/zero-validaton/codegen/parser"
+	"github.com/0B1t322/zero-validation/codegen/parser"
 )
 
 type Option func(o *options)

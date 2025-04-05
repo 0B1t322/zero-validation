@@ -1,7 +1,7 @@
 package field_type
 
 import (
-	"github.com/0B1t322/zero-validaton/internal/assertx"
+	"github.com/0B1t322/zero-validation/internal/assertx"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

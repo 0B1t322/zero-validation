@@ -2,9 +2,9 @@ package validate
 
 import (
 	"context"
-	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
+	validatecontext "github.com/0B1t322/zero-validation/validate/context"
 
-	errors "github.com/0B1t322/zero-validaton/errors"
+	errors "github.com/0B1t322/zero-validation/errors"
 )
 
 func Struct[T any](ctx context.Context, obj T, fieldRules ...FieldRule[T]) error {

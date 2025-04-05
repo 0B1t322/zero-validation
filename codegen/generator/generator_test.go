@@ -1,8 +1,8 @@
 package generator
 
 import (
-	"github.com/0B1t322/zero-validaton/codegen/parser"
-	field_type "github.com/0B1t322/zero-validaton/codegen/parser/field-type"
+	"github.com/0B1t322/zero-validation/codegen/parser"
+	field_type "github.com/0B1t322/zero-validation/codegen/parser/field-type"
 	"github.com/stretchr/testify/require"
 	"testing"
 )

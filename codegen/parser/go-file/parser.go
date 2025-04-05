@@ -2,7 +2,7 @@ package parser
 
 import (
 	"fmt"
-	model "github.com/0B1t322/zero-validaton/codegen/parser"
+	model "github.com/0B1t322/zero-validation/codegen/parser"
 	"go/ast"
 	"go/parser"
 	"go/token"

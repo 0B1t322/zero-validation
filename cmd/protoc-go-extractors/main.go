@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/0B1t322/zero-validaton/codegen"
-	"github.com/0B1t322/zero-validaton/codegen/config"
+	"github.com/0B1t322/zero-validation/codegen"
+	"github.com/0B1t322/zero-validation/codegen/config"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/types/descriptorpb"
 	"google.golang.org/protobuf/types/pluginpb"

@@ -2,9 +2,9 @@ package validate
 
 import (
 	"fmt"
-	"github.com/0B1t322/zero-validaton/errors"
-	"github.com/0B1t322/zero-validaton/field"
-	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
+	"github.com/0B1t322/zero-validation/errors"
+	"github.com/0B1t322/zero-validation/field"
+	validatecontext "github.com/0B1t322/zero-validation/validate/context"
 )
 
 type sliceFieldRule[T any, V any] struct {

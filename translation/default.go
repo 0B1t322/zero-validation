@@ -2,7 +2,7 @@ package translation
 
 import (
 	"fmt"
-	"github.com/0B1t322/zero-validaton/translation/locales/en"
+	"github.com/0B1t322/zero-validation/translation/locales/en"
 	"sync/atomic"
 	"text/template"
 )

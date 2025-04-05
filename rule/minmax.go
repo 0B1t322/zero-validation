@@ -1,9 +1,9 @@
 package rule
 
 import (
-	"github.com/0B1t322/zero-validaton/errors"
-	"github.com/0B1t322/zero-validaton/internal/optional"
-	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
+	"github.com/0B1t322/zero-validation/errors"
+	"github.com/0B1t322/zero-validation/internal/optional"
+	validatecontext "github.com/0B1t322/zero-validation/validate/context"
 )
 
 var (

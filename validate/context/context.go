@@ -2,8 +2,8 @@ package validatecontext
 
 import (
 	"context"
-	fieldname "github.com/0B1t322/zero-validaton/field/name"
-	"github.com/0B1t322/zero-validaton/translation"
+	fieldname "github.com/0B1t322/zero-validation/field/name"
+	"github.com/0B1t322/zero-validation/translation"
 )
 
 type Context interface {

@@ -1,8 +1,8 @@
 package testdata
 
 import (
-	"github.com/0B1t322/zero-validaton/internal/_testdata/subpkg1"
-	"github.com/0B1t322/zero-validaton/internal/optional"
+	"github.com/0B1t322/zero-validation/internal/_testdata/subpkg1"
+	"github.com/0B1t322/zero-validation/internal/optional"
 	"time"
 )
 

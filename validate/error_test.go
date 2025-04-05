@@ -2,10 +2,10 @@ package validate
 
 import (
 	"fmt"
-	errors_v2 "github.com/0B1t322/zero-validaton/errors"
-	"github.com/0B1t322/zero-validaton/translation"
-	"github.com/0B1t322/zero-validaton/translation/locales/ru"
-	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
+	errors_v2 "github.com/0B1t322/zero-validation/errors"
+	"github.com/0B1t322/zero-validation/translation"
+	"github.com/0B1t322/zero-validation/translation/locales/ru"
+	validatecontext "github.com/0B1t322/zero-validation/validate/context"
 	"testing"
 )
 

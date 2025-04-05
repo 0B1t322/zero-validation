@@ -1,9 +1,9 @@
 package validate
 
 import (
-	errors "github.com/0B1t322/zero-validaton/errors"
-	"github.com/0B1t322/zero-validaton/field"
-	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
+	errors "github.com/0B1t322/zero-validation/errors"
+	"github.com/0B1t322/zero-validation/field"
+	validatecontext "github.com/0B1t322/zero-validation/validate/context"
 )
 
 type fielder[T any, V any] struct {

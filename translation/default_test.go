@@ -1,7 +1,7 @@
 package translation
 
 import (
-	errors_v2 "github.com/0B1t322/zero-validaton/errors"
+	errors_v2 "github.com/0B1t322/zero-validation/errors"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"text/template"

@@ -1,9 +1,9 @@
 package validators
 
 import (
-	"github.com/0B1t322/zero-validaton/field"
-	"github.com/0B1t322/zero-validaton/rule"
-	"github.com/0B1t322/zero-validaton/validate"
+	"github.com/0B1t322/zero-validation/field"
+	"github.com/0B1t322/zero-validation/rule"
+	"github.com/0B1t322/zero-validation/validate"
 	"testing"
 )
 

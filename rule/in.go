@@ -1,8 +1,8 @@
 package rule
 
 import (
-	"github.com/0B1t322/zero-validaton/errors"
-	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
+	"github.com/0B1t322/zero-validation/errors"
+	validatecontext "github.com/0B1t322/zero-validation/validate/context"
 )
 
 var ErrValueNotIn = errors.DefaultErrorObjectFactory().NewErrorObject("validation_in_invalid")

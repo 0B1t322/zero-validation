@@ -2,11 +2,11 @@ package codegen
 
 import (
 	"errors"
-	"github.com/0B1t322/zero-validaton/codegen/config"
-	"github.com/0B1t322/zero-validaton/codegen/generator"
-	"github.com/0B1t322/zero-validaton/codegen/parser"
-	"github.com/0B1t322/zero-validaton/codegen/parser/gqlgen"
-	"github.com/0B1t322/zero-validaton/codegen/parser/tags"
+	"github.com/0B1t322/zero-validation/codegen/config"
+	"github.com/0B1t322/zero-validation/codegen/generator"
+	"github.com/0B1t322/zero-validation/codegen/parser"
+	"github.com/0B1t322/zero-validation/codegen/parser/gqlgen"
+	"github.com/0B1t322/zero-validation/codegen/parser/tags"
 	"github.com/99designs/gqlgen/codegen"
 	gqlgenconfig "github.com/99designs/gqlgen/codegen/config"
 	"go/types"

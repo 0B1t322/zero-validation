@@ -1,6 +1,6 @@
 package parser
 
-import "github.com/0B1t322/zero-validaton/codegen/matcher"
+import "github.com/0B1t322/zero-validation/codegen/matcher"
 
 type Option func(o *options)
 

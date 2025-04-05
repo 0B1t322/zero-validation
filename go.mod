@@ -1,4 +1,4 @@
-module github.com/0B1t322/zero-validaton
+module github.com/0B1t322/zero-validation
 
 go 1.23.0
 

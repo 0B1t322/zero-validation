@@ -2,7 +2,7 @@ package errors
 
 import (
 	"fmt"
-	"github.com/0B1t322/zero-validaton/translation"
+	"github.com/0B1t322/zero-validation/translation"
 	"text/template"
 )
 
