@@ -1,7 +1,8 @@
 /bin
-**/bin
+**/bin/
 /_loadtest
 .idea/
 bin
 _loadtest
 /bin/
+/mw/
