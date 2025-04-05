@@ -77,3 +77,9 @@ func (g getImportsFromFieldTypeVisitorFunc) VisitPtr(_ field_type.Ptr) {
 func (g getImportsFromFieldTypeVisitorFunc) VisitSlice(_ field_type.Slice) {
 
 }
+
+// TypeAlias ...
+type TypeAlias struct {
+	Name string
+	To   string
+}

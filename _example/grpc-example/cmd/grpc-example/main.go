@@ -10,7 +10,6 @@ import (
 	"github.com/0B1t322/zero-validaton/translation"
 	"github.com/0B1t322/zero-validaton/validate"
 	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
-	"github.com/0B1t322/zero-validaton/validate/validators"
 	"os"
 )
 
@@ -49,17 +48,30 @@ func main() {
 			validatecontext.WithFieldNameGetter(fieldname.Proto),
 		),
 	)
+
 	err := validate.Struct(
 		ctx,
 		&todos.CreateSomeRequest{
-			BaseType: 1,
 			OneofExample: &todos.CreateSomeRequest_InnerMessage_{
-				InnerMessage: &todos.CreateSomeRequest_InnerMessage{
-					Some: "some",
-				},
+				InnerMessage: &todos.CreateSomeRequest_InnerMessage{},
 			},
 		},
-		validators.GetOrInitValidatorRules[createSomeRequestValidator]()...,
+		validate.Field(
+			todos.ValidateCreateSomeRequest.BaseType,
+			rule.Required[uint64](),
+		),
+		validate.IfFieldTypeOf[*todos.CreateSomeRequest_InnerMessage_](
+			todos.ValidateCreateSomeRequest.OneofExample,
+			validate.ObjectField(
+				todos.ValidateCreateSomeRequest_InnerMessage_.InnerMessage,
+				validate.Field(
+					todos.ValidateCreateSomeRequest_InnerMessage.Some,
+					rule.Required[string](),
+				),
+			),
+		),
 	)
-	json.NewEncoder(os.Stdout).Encode(err)
+	if err != nil {
+		json.NewEncoder(os.Stdout).Encode(err)
+	}
 }

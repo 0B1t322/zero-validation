@@ -16,6 +16,8 @@ func (l locale) GetCodesTemplate() map[string]*template.Template {
 		"validation_value_lte_max":          template.Must(template.New("validation_value_lte_max").Parse("value must be less or equal then {{.Max}}")),
 		"validation_value_between_required": template.Must(template.New("validation_value_between_required").Parse("value bust be between {{.Min}} and {{.Max}}")),
 		"validation_not_in_invalid":         template.Must(template.New("validation_not_in_invalid").Parse("must not be in {{.In}}")),
+		"max_slice_len_invalid":             template.Must(template.New("max_slice_len_invalid").Parse("max len should be less {{.Len}}")),
+		"min_string_len_invalid":            template.Must(template.New("min_string_len_invalid").Parse("min length of string should be gte {{.Len}}")),
 	}
 }
 

@@ -17,7 +17,8 @@ var (
 )
 
 type Parser struct {
-	structs []parser.Struct
+	structs   []parser.Struct
+	typeAlias []parser.TypeAlias
 
 	gen           *protogen.Plugin
 	structMatcher matcher.StructMatcher
@@ -37,6 +38,10 @@ func NewParser(opts ...Option) *Parser {
 
 func (p *Parser) Structs() []parser.Struct {
 	return p.structs
+}
+
+func (p *Parser) StructAliases() []parser.TypeAlias {
+	return p.typeAlias
 }
 
 func (p *Parser) Reset() {
@@ -176,6 +181,12 @@ func (p *Parser) parseOneOfField(field *protogen.Field) (parser.Field, error) {
 	if field.Oneof.Desc.IsSynthetic() {
 		return parser.Field{}, fmt.Errorf("%w: one of for optional field", errSkip)
 	}
+
+	p.typeAlias = append(p.typeAlias, parser.TypeAlias{
+		Name: "Is" + field.Oneof.GoIdent.GoName,
+		To:   "is" + field.Oneof.GoIdent.GoName,
+	})
+
 	return parser.Field{
 		Name: field.Oneof.GoName,
 		Type: field_type.CustomField(

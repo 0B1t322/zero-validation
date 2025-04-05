@@ -14,7 +14,9 @@ func Struct[T any](ctx context.Context, obj T, fieldRules ...FieldRule[T]) error
 	for _, fieldRule := range fieldRules {
 		if err := fieldRule.Validate(vCtx, obj); err != nil {
 			if errs == nil {
-				errs = errors.NewFieldErrors(errors.WithStartCap(len(fieldRules)))
+				errs = errors.NewFieldErrors(
+					errors.WithStartCap(fieldErrorsStartCap(vCtx.IsStopAfterFirstError(), len(fieldRules))),
+				)
 			}
 			errs = append(errs, err)
 
@@ -29,4 +31,12 @@ func Struct[T any](ctx context.Context, obj T, fieldRules ...FieldRule[T]) error
 	}
 
 	return errors.FieldErrorToErrors(errs)
+}
+
+func fieldErrorsStartCap(isStopAfterFirstErrors bool, fieldErrorsCount int) int {
+	if isStopAfterFirstErrors {
+		return 1
+	}
+
+	return fieldErrorsCount
 }

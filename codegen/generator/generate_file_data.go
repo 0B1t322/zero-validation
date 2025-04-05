@@ -7,4 +7,5 @@ type generateFileData struct {
 	Imports                   []parser.Import
 	Structs                   []parser.Struct
 	IsGenerateInParsedPackage bool
+	TypeAlias                 []parser.TypeAlias
 }

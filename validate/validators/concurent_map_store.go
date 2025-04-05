@@ -30,8 +30,8 @@ func GetValidatorRules[V Validator[T], T any]() []validate.FieldRule[T] {
 	return GetOrInitValidatorRulesFromStore[V, T](globalMapStore)
 }
 
-func InitValidatorRules[V Validator[T], T any](store ValidatorStore, validator V) {
-	InitValidatorInStore(store, validator)
+func InitValidatorRules[V Validator[T], T any](validator V) {
+	InitValidatorInStore(globalMapStore, validator)
 }
 
 func GetOrInitValidatorRules[V Validator[T], T any]() []validate.FieldRule[T] {

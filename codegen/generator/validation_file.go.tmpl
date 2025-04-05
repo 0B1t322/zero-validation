@@ -8,6 +8,10 @@ import (
     {{end}}
 )
 
+{{range $typeAlias := .TypeAlias}}
+type {{.Name}} = {{.To}}
+{{end}}
+
 {{range $struct := .Structs}}
 type {{extractorTypeName $struct.Name}}Extractor struct {
     {{- range $field := $struct.Fields}}

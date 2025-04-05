@@ -1,12 +1,12 @@
 package validate
 
 import (
-	errors_v2 "github.com/0B1t322/zero-validaton/errors"
+	errors "github.com/0B1t322/zero-validaton/errors"
 	validatecontext "github.com/0B1t322/zero-validaton/validate/context"
 )
 
 func TranslateError(ctx validatecontext.Context, err error) error {
-	if errObj, ok := err.(errors_v2.ErrorObject); ok {
+	if errObj, ok := err.(errors.ErrorObject); ok {
 		code := errObj.GetCode()
 		registry := ctx.GetRegistry()
 

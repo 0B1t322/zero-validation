@@ -52,6 +52,7 @@ type GenerateCommand struct {
 
 type GenerateToCommand struct {
 	Structs                   []parser.Struct
+	TypeAlias                 []parser.TypeAlias
 	PackageName               string
 	IsGenerateInParsedPackage bool
 	ForceExtractFromPtr       bool
@@ -72,6 +73,7 @@ func (g *Generator) GenerateTo(cmd GenerateToCommand, w io.Writer) error {
 		PkgName:                   path.Base(cmd.PackageName),
 		Imports:                   parser.Structs.GetUsedImports(cmd.Structs),
 		Structs:                   cmd.Structs,
+		TypeAlias:                 cmd.TypeAlias,
 		IsGenerateInParsedPackage: cmd.IsGenerateInParsedPackage,
 	}
 

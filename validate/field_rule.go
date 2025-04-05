@@ -33,6 +33,10 @@ type FieldRule[T any] interface {
 	Validate(ctx validatecontext.Context, obj T) *errors.FieldError
 }
 
+func (f *fieldRule[T, V]) GetFieldName() string {
+	return f.valueExtractor.Name()
+}
+
 func (f *fieldRule[T, V]) Validate(ctx validatecontext.Context, obj T) *errors.FieldError {
 	v := f.valueExtractor.ExtractValue(obj)
 	for _, rule := range f.rules {
@@ -44,12 +48,7 @@ func (f *fieldRule[T, V]) Validate(ctx validatecontext.Context, obj T) *errors.F
 			)
 		}
 	}
-
 	return nil
-}
-
-func (f *fieldRule[T, V]) GetFieldName() string {
-	return f.valueExtractor.Name()
 }
 
 func Field[T any, V any](structField field.StructField[T, V], rules ...Rule[V]) FieldRule[T] {

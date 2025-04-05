@@ -85,6 +85,7 @@ func (g *GRPC) Generate() error {
 		err = g.generator.GenerateTo(
 			generator.GenerateToCommand{
 				Structs:                   structs,
+				TypeAlias:                 protoParser.StructAliases(),
 				PackageName:               string(file.GoPackageName),
 				IsGenerateInParsedPackage: true,
 				ForceExtractFromPtr:       true,

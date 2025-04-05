@@ -115,3 +115,12 @@ func (es Errors) Join(errs Errors) Errors {
 
 	return es
 }
+
+func (es Errors) Is(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	_, ok := err.(Errors)
+	return ok
+}

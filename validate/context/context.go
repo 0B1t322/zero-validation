@@ -63,9 +63,10 @@ func newValidateContextFromContext(ctx context.Context) Context {
 	}
 
 	return validateContext{
-		registry:        registry,
-		preferredLocale: locale,
-		fieldNameGetter: fieldName,
+		registry:            registry,
+		preferredLocale:     locale,
+		fieldNameGetter:     fieldName,
+		stopAfterFirstError: true,
 	}
 }
 
@@ -99,7 +100,7 @@ type validateContextOptions struct {
 func newValidateContextOptions(options ...ContextOption) *validateContextOptions {
 	o := &validateContextOptions{
 		fieldNameGetter:     defaultFieldNameKey,
-		stopAfterFirstError: false,
+		stopAfterFirstError: true,
 	}
 
 	for _, option := range options {
@@ -118,6 +119,12 @@ func WithFieldNameGetter(f fieldname.Getter) ContextOption {
 func WithStopAfterFirstError() ContextOption {
 	return func(o *validateContextOptions) {
 		o.stopAfterFirstError = true
+	}
+}
+
+func WithNotStopAfterFirstError() ContextOption {
+	return func(o *validateContextOptions) {
+		o.stopAfterFirstError = false
 	}
 }
 

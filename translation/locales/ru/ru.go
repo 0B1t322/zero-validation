@@ -23,6 +23,8 @@ func (l locale) GetCodesTemplate() map[string]*template.Template {
 		"validation_value_lte_max":          template.Must(template.New("validation_value_lte_max").Parse("значение должно быть меньше или равно {{.Max}}")),
 		"validation_value_between_required": template.Must(template.New("validation_value_between_required").Parse("значение должно быть между {{.Min}} и {{.Max}}")),
 		"validation_not_in_invalid":         template.Must(template.New("validation_not_in_invalid").Parse("значение не должно быть одним из {{.In}}")),
+		"max_slice_len_invalid":             template.Must(template.New("max_slice_len_invalid").Parse("количество элементов не может быть больше {{.Len}}")),
+		"min_string_len_invalid":            template.Must(template.New("min_string_len_invalid").Parse("в строке должно не менее {{.Len}} символов")),
 	}
 
 	override.Locale(templateByCode, l.templateByCodeOverrides...)

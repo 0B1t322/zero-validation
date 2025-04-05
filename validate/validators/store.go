@@ -11,7 +11,11 @@ type ValidatorStore interface {
 
 func GetValidatorRulesFromStore[V Validator[T], T any](store ValidatorStore) []validate.FieldRule[T] {
 	name := getValidatorName[T, V]()
-	wrap := store.Get(name).(Validator[T])
+	gettedValidator := store.Get(name)
+	if gettedValidator == nil {
+		panic("no validator found for " + name)
+	}
+	wrap := gettedValidator.(Validator[T])
 	return wrap.Rules()
 }
 
