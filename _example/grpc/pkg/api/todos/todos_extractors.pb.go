@@ -2,7 +2,7 @@
 package todos
 
 import (
-	"github.com/0B1t322/zero-validation/field"
+	"github.com/0B1t322/zero-validaton/field"
 )
 
 type IsSearchTodosRequest_Filter_By = isSearchTodosRequest_Filter_By

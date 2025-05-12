@@ -78,7 +78,6 @@ func (t templateFunctions) formatChildFieldType(field parser.Field) string {
 		return field.Type.GoTypeString()
 	}
 
-	//fmt.Fprintf(os.Stderr,,"%+v\n", field.Type.GoTypeStringWithAlias(t.parsedPackageAlias))
 	return field.Type.GoTypeStringWithAlias(t.parsedPackageAlias)
 }
 
