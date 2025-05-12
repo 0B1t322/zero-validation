@@ -2,7 +2,7 @@ module github.com/0B1t322/zero-validation/grpc-example
 
 go 1.23.0
 
-replace github.com/0B1t322/zero-validaton => ../..
+replace github.com/0B1t322/zero-validation => ../..
 
 require (
 	github.com/0B1t322/zero-validation v0.0.2-rc

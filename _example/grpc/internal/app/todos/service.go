@@ -58,6 +58,7 @@ func (s searchTodosValidator) Rules() []validate.FieldRule[*todos.SearchTodosReq
 
 	return []validate.FieldRule[*todos.SearchTodosRequest]{
 		validate.Field(todos.ValidateSearchTodosRequest.Limit, rule.Between[uint64](1, 100)),
+		validate.Field(todos.ValidateSearchTodosRequest.Filter, rule.NotNil[todos.SearchTodosRequest_Filter]()),
 		validate.If(s.isSearchTodosRequestFilterNotNil,
 			validate.ObjectField(todos.ValidateSearchTodosRequest.Filter, filterRules...)),
 	}
