@@ -13,3 +13,7 @@ build-protoc-gen-go-extractors-debug:
 
 create-bin-dir:
 	mkdir -p bin
+
+.PHONY:
+test:
+	go test ./...

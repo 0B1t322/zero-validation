@@ -1,0 +1,33 @@
+syntax = 'proto3';
+package zero_validation.example.todos;
+option go_package = "github.com/0B1t322/zero-validaton/grpc-example/pkg/api/todos";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/empty.proto";
+
+service TodoService {
+  rpc SearchTodos(SearchTodosRequest) returns (SearchTodosResponse);
+}
+
+message SearchTodosRequest {
+  message Filter {
+    message ByIDs {
+      repeated uint64  ids = 1;
+    }
+    message ByName {
+      string name = 1;
+    }
+    oneof by {
+      ByIDs ids = 1;
+      ByName by_name = 2;
+    }
+  }
+  Filter filter = 1;
+  uint64 limit = 2;
+}
+message SearchTodosResponse {}
+
+
+
+
+

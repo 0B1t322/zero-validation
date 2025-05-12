@@ -2,7 +2,9 @@
 **/bin/
 /_loadtest
 .idea/
+/.idea/
 bin
 _loadtest
 /bin/
 /mw/
+/_example_old/

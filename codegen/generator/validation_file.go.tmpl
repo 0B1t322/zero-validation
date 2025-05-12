@@ -2,7 +2,7 @@
 package {{.PkgName}}
 
 import (
-    "github.com/0B1t322/zero-validaton/field"
+    "github.com/0B1t322/zero-validation/field"
     {{range $import := .Imports }}
     {{- if $import.Alias}}{{$import.Alias}} {{end}}"{{$import.Path}}"
     {{end}}

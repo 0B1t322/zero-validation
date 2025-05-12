@@ -23,6 +23,8 @@ type validateContext struct {
 	fieldNameGetter fieldname.Getter
 
 	stopAfterFirstError bool
+
+	isWrapParentField bool
 }
 
 func (v validateContext) GetRegistry() translation.Registry {
@@ -39,6 +41,10 @@ func (v validateContext) FieldNameGetter() fieldname.Getter {
 
 func (v validateContext) IsStopAfterFirstError() bool {
 	return v.stopAfterFirstError
+}
+
+func (v validateContext) IsWrapParentField() bool {
+	return v.isWrapParentField
 }
 
 func newValidateContextFromContext(ctx context.Context) Context {

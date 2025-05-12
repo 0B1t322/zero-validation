@@ -1,0 +1,43 @@
+type Query {
+    SearchTodos(input: SearchTodosInput!): SearchTodosResponse!
+}
+input SearchTodosInput {
+    Filter: SearchTodosInputFilter!
+    Limit: Int!
+}
+input SearchTodosInputFilter @oneOf {
+    ByIDs: SearchTodosInputFilterByIDs
+    ByName: SearchTodosInputFilterByName
+}
+input SearchTodosInputFilterByIDs {
+    IDs: [ID!]!
+}
+input SearchTodosInputFilterByName {
+    Name: String!
+}
+type SearchTodosResponse {
+    Todos: [Todo!]
+}
+type Todo {
+    ID: ID!
+}
+
+directive @goModel(
+    model: String
+    models: [String!]
+    forceGenerate: Boolean
+) on OBJECT | INPUT_OBJECT | SCALAR | ENUM | INTERFACE | UNION
+
+directive @goField(
+    forceResolver: Boolean
+    name: String
+    omittable: Boolean
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
+directive @goTag(
+    key: String!
+    value: String
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
+
+directive @oneOf on INPUT_OBJECT
+

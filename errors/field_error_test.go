@@ -35,6 +35,5 @@ func TestFieldErrorToErrors_SimpleCase(t *testing.T) {
 
 	errs := FieldErrorToErrors(fs)
 	assert.Equal(t, errs["a"], ErrorSlice{err1, err2})
-	assert.Equal(t, errs["b"], ErrorSlice{err2})
-	t.Log(errs)
+	assert.Equal(t, errs["b"], err2)
 }

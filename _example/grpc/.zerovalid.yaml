@@ -1,0 +1,23 @@
+grpc:
+  # Добавление регулярок для исключения сообщений
+  # из генерации объектов распаковщиков
+  exclude:
+    - "^.*Response$"
+
+# Имена полей для перевода
+additional_tags:
+  - matches:
+      - "^SearchTodosRequest"
+    field_tags:
+      - field_name: Filter
+        tags:
+          ru: "Фильтр"
+      - field_name: Name
+        tags:
+          ru: "Имя"
+      - field_name: Ids
+        tags:
+          ru: "Список ID"
+
+
+          

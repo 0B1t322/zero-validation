@@ -1,0 +1,66 @@
+openapi: 3.1.0
+info:
+  title: Todos
+  description: Todos
+  version: 1.0.0
+servers:
+  - url: 'https://localhost:8080/api/'
+paths:
+  /todos/v1/search:
+    get:
+      description: New endpoint
+      parameters:
+        - in: query
+          name: ids
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+        - in: query
+          name: name
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            format: int64
+      responses:
+        default:
+          description: some
+          content:
+            application/json:
+              schema:
+                type: object
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: success
+          content:
+            application/json:
+              schema: {}
+
+components:
+  schemas:
+    Error:
+      description: An API error
+      type: object
+      properties:
+        title:
+          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
+          example: Bad Request
+          type: string
+        details:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          example: Property foo is required but is missing.
+          type: string
+        properties:
+          description: Optional map of properties
+          nullable: true
+          type: object

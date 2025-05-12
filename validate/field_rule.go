@@ -23,18 +23,14 @@ func (f *fielder[T, V]) SetNameKey(key string) {
 	f.key = key
 }
 
-type fieldRule[T any, V any] struct {
-	filder         *fielder[T, V]
-	valueExtractor field.StructField[T, V]
-	rules          []Rule[V]
-}
-
 type FieldRule[T any] interface {
 	Validate(ctx validatecontext.Context, obj T) *errors.FieldError
 }
 
-func (f *fieldRule[T, V]) GetFieldName() string {
-	return f.valueExtractor.Name()
+type fieldRule[T any, V any] struct {
+	filder         *fielder[T, V]
+	valueExtractor field.StructField[T, V]
+	rules          []Rule[V]
 }
 
 func (f *fieldRule[T, V]) Validate(ctx validatecontext.Context, obj T) *errors.FieldError {

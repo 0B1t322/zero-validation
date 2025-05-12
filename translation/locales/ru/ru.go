@@ -31,7 +31,6 @@ func (l locale) GetCodesTemplate() map[string]*template.Template {
 
 	return templateByCode
 }
-
 func (l locale) GetName() string {
 	return "ru"
 }
