@@ -2,7 +2,7 @@
 package todos
 
 import (
-	"github.com/0B1t322/zero-validaton/field"
+	"github.com/0B1t322/zero-validation/field"
 )
 
 type IsSearchTodosRequest_Filter_By = isSearchTodosRequest_Filter_By
@@ -14,7 +14,7 @@ type searchTodosRequest_Filter_ByIDsExtractor struct {
 var ValidateSearchTodosRequest_Filter_ByIDs = searchTodosRequest_Filter_ByIDsExtractor{
 	Ids: field.NewField(
 		"Ids",
-		map[string]string{"json": "ids", "proto": "ids", "ru": "Список ID"},
+		map[string]string{"proto": "ids", "ru": "Список ID", "json": "ids"},
 		func(from *SearchTodosRequest_Filter_ByIDs) []uint64 { return from.Ids },
 	),
 }

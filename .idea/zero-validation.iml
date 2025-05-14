@@ -13,6 +13,10 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/_loadtest" />
       <excludeFolder url="file://$MODULE_DIR$/_example_old/gqlgen-example/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/_example/grpc/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/_example_old/grpc-example/api/external" />
+      <excludeFolder url="file://$MODULE_DIR$/_example_old/some/cmd" />
+      <excludeFolder url="file://$MODULE_DIR$/mw" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
