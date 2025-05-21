@@ -4,6 +4,7 @@
 /_loadtest
 .idea/
 /.idea/
+.idea
 bin
 _loadtest
 /bin/

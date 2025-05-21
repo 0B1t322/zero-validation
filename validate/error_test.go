@@ -17,7 +17,7 @@ func TestTranslateError(t *testing.T) {
 	err := errors_v2.NewErrorObject("required", "some")
 	//ctx := context.Background()
 
-	vCtx := validatecontext.New(registry, registry.DefaultLocale())
+	vCtx := validatecontext.New(registry, "ru")
 
 	t.Log(err)
 
