@@ -27,7 +27,7 @@ func MapError(ctx context.Context, arg any, err error) (gqlerror.List, bool) {
 		return nil, false
 	}
 
-	if len(gqlError) > 0 {
+	if len(gqlError) == 0 {
 		return nil, false
 	}
 
