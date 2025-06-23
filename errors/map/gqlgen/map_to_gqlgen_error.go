@@ -3,11 +3,12 @@ package gqlgenerrors
 import (
 	"context"
 	"errors"
+	"reflect"
+
 	verrors "github.com/0B1t322/zero-validation/errors"
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/vektah/gqlparser/v2/ast"
 	"github.com/vektah/gqlparser/v2/gqlerror"
-	"reflect"
 )
 
 func MapError(ctx context.Context, arg any, err error) (gqlerror.List, bool) {
@@ -25,6 +26,11 @@ func MapError(ctx context.Context, arg any, err error) (gqlerror.List, bool) {
 	if gqlError == nil {
 		return nil, false
 	}
+
+	if len(gqlError) > 0 {
+		return nil, false
+	}
+
 	return gqlError, true
 }
 

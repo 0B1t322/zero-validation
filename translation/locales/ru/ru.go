@@ -1,8 +1,9 @@
 package ru
 
 import (
-	"github.com/0B1t322/zero-validation/translation/locales/override"
 	"text/template"
+
+	"github.com/0B1t322/zero-validation/translation/locales/override"
 )
 
 func Locale(templateByCodeOverrides ...override.TemplateByCode) locale {
