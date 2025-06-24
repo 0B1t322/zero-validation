@@ -26,6 +26,7 @@ type Parser struct {
 	structMatcher matcher.StructMatcher
 
 	parsedFilePackagePath string
+	parsedFilePath        string
 }
 
 func NewParser(opts ...Option) *Parser {
@@ -49,6 +50,7 @@ func (p *Parser) StructAliases() []parser.TypeAlias {
 func (p *Parser) Reset() {
 	p.structs = p.structs[:0]
 	p.parsedFilePackagePath = ""
+	p.parsedFilePath = ""
 }
 
 func (p *Parser) ParseFiles(files []*protogen.File) error {
@@ -63,6 +65,7 @@ func (p *Parser) ParseFiles(files []*protogen.File) error {
 
 func (p *Parser) ParseFile(file *protogen.File) error {
 	p.parsedFilePackagePath = file.GoDescriptorIdent.GoImportPath.String()
+	p.parsedFilePath = file.Desc.Path()
 	messagesSeq := p.getProvidedMessagesToParse(file)
 
 	for message := range messagesSeq {
@@ -187,10 +190,13 @@ func (p *Parser) parseOneOfField(field *protogen.Field) (parser.Field, error) {
 		return parser.Field{}, fmt.Errorf("%w: one of for optional field", errSkip)
 	}
 
-	p.typeAlias = append(p.typeAlias, parser.TypeAlias{
-		Name: "Is" + field.Oneof.GoIdent.GoName,
-		To:   "is" + field.Oneof.GoIdent.GoName,
-	})
+	if field.Desc.ParentFile().Path() == p.parsedFilePath {
+		// add alias if only it's same file
+		p.typeAlias = append(p.typeAlias, parser.TypeAlias{
+			Name: "Is" + field.Oneof.GoIdent.GoName,
+			To:   "is" + field.Oneof.GoIdent.GoName,
+		})
+	}
 
 	return parser.Field{
 		Name: field.Oneof.GoName,
