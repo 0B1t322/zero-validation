@@ -49,6 +49,7 @@ func (p *Parser) StructAliases() []parser.TypeAlias {
 
 func (p *Parser) Reset() {
 	p.structs = p.structs[:0]
+	p.typeAlias = p.typeAlias[:0]
 	p.parsedFilePackagePath = ""
 	p.parsedFilePath = ""
 }
