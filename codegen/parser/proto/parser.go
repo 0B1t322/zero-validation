@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"iter"
+	"path"
 	"strings"
 
 	"github.com/0B1t322/zero-validation/codegen/matcher"
@@ -109,10 +110,6 @@ func (p *Parser) parseMessage(message *protogen.Message) error {
 	// oneOf special case
 	parsedOneofFields := make(map[*protogen.Oneof]struct{})
 	for _, field := range message.Fields {
-		//if strings.Contains(field.GoIdent.GoName, "SomeMapEntry") {
-		//	fmt.Fprintf(os.Stderr, "%+v\n", field.Desc)
-		//	fmt.Fprintf(os.Stderr, "%+v\n", field.Desc.Message().IsMapEntry())
-		//}
 		var (
 			parsedField parser.Field
 			err         error
@@ -242,14 +239,16 @@ func (p *Parser) parseCustomType(field *protogen.Field) (field_type.FieldTyper, 
 	isTypeOfThisFile := customTypeImportPath == p.parsedFilePackagePath
 
 	var pkgPath string
+	var pkgName string
 	if !isTypeOfThisFile {
 		pkgPath = strings.ReplaceAll(customTypeImportPath, `"`, "")
+		pkgName = path.Base(pkgPath)
 	}
 
 	var customFieldType field_type.FieldTyper
 	customFieldType = field_type.CustomField(
 		getTypeName(field),
-		"",
+		pkgName,
 		pkgPath,
 	)
 

@@ -2,6 +2,7 @@ package codegen
 
 import (
 	"fmt"
+
 	"github.com/0B1t322/zero-validation/codegen/config"
 	"github.com/0B1t322/zero-validation/codegen/generator"
 	tags_adder "github.com/0B1t322/zero-validation/codegen/generator/tags-adder"
@@ -51,6 +52,7 @@ func (g *GRPC) Generate() error {
 	protoParser := parser.NewParser(
 		parser.WithExcludes(g.cfg.GrpcConfig.Exclude),
 	)
+
 	for _, file := range g.gen.Files {
 		if !file.Generate {
 			continue
