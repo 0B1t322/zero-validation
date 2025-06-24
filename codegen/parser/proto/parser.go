@@ -3,13 +3,14 @@ package parser
 import (
 	"errors"
 	"fmt"
+	"iter"
+	"strings"
+
 	"github.com/0B1t322/zero-validation/codegen/matcher"
 	"github.com/0B1t322/zero-validation/codegen/parser"
 	field_type "github.com/0B1t322/zero-validation/codegen/parser/field-type"
 	"google.golang.org/protobuf/compiler/protogen"
 	"google.golang.org/protobuf/reflect/protoreflect"
-	"iter"
-	"strings"
 )
 
 var (
@@ -108,11 +109,18 @@ func (p *Parser) parseMessage(message *protogen.Message) error {
 	// oneOf special case
 	parsedOneofFields := make(map[*protogen.Oneof]struct{})
 	for _, field := range message.Fields {
+		//if strings.Contains(field.GoIdent.GoName, "SomeMapEntry") {
+		//	fmt.Fprintf(os.Stderr, "%+v\n", field.Desc)
+		//	fmt.Fprintf(os.Stderr, "%+v\n", field.Desc.Message().IsMapEntry())
+		//}
 		var (
 			parsedField parser.Field
 			err         error
 		)
 		switch {
+		case isFieldIsMap(field):
+			// MARK: Skip maps
+			continue
 		case field.Oneof != nil && !field.Oneof.Desc.IsSynthetic():
 			if _, isFind := parsedOneofFields[field.Oneof]; isFind {
 				continue
@@ -321,4 +329,24 @@ func tryGetBasicTypeFromKind(desc protoreflect.FieldDescriptor) (field_type.Fiel
 	}
 
 	return basicFieldType, true
+}
+
+func isFieldIsMap(field *protogen.Field) bool {
+	if field.Desc.IsMap() {
+		return true
+	}
+
+	if field.Message != nil && field.Message.Desc.IsMapEntry() {
+		return true
+	}
+
+	if msgDesc := field.Desc.Message(); msgDesc != nil && msgDesc.IsMapEntry() {
+		return true
+	}
+
+	if parent := field.Parent; parent.Desc.IsMapEntry() {
+		return true
+	}
+
+	return false
 }
