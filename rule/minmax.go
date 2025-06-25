@@ -1,6 +1,8 @@
 package rule
 
 import (
+	"cmp"
+
 	"github.com/0B1t322/zero-validation/errors"
 	"github.com/0B1t322/zero-validation/internal/optional"
 	validatecontext "github.com/0B1t322/zero-validation/validate/context"
@@ -23,7 +25,7 @@ const (
 	btw
 )
 
-type MinMaxRule[T Number] struct {
+type MinMaxRule[T cmp.Ordered] struct {
 	op  minMaxOp
 	min optional.Optional[T]
 	max optional.Optional[T]
@@ -56,13 +58,14 @@ func (r *MinMaxRule[T]) compare(value T) error {
 	return nil
 }
 
-type minMaxParams[T Number] struct {
+type minMaxParams[T cmp.Ordered] struct {
 	Min T
 	Max T
 }
 
-func Min[T Number](min T) MinMaxRule[T] {
-	return MinMaxRule[T]{
+// Min ...
+func Min[T cmp.Ordered](min T) *MinMaxRule[T] {
+	return &MinMaxRule[T]{
 		op:  gte,
 		min: optional.New(min),
 		err: ErrValueShouldBeGTEMin.SetParams(
@@ -73,8 +76,9 @@ func Min[T Number](min T) MinMaxRule[T] {
 	}
 }
 
-func Max[T Number](max T) MinMaxRule[T] {
-	return MinMaxRule[T]{
+// Max ...
+func Max[T cmp.Ordered](max T) *MinMaxRule[T] {
+	return &MinMaxRule[T]{
 		op:  lte,
 		max: optional.New(max),
 		err: ErrValueShouldBeLTEMax.SetParams(
@@ -85,7 +89,8 @@ func Max[T Number](max T) MinMaxRule[T] {
 	}
 }
 
-func Between[T Number](min, max T) *MinMaxRule[T] {
+// Between ...
+func Between[T cmp.Ordered](min, max T) *MinMaxRule[T] {
 	return &MinMaxRule[T]{
 		op:  btw,
 		min: optional.New(min),
